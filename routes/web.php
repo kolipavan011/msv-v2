@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -22,9 +23,7 @@ Route::get('/', function () {
 Route::prefix('/dashmin')->group(function () {
 
     // Dashboard
-    Route::get('/', function () {
-        return Inertia::render('Dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     // Auth
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
@@ -35,4 +34,6 @@ Route::prefix('/dashmin')->group(function () {
 
     Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
+
+    //others
 });

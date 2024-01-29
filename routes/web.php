@@ -21,16 +21,18 @@ Route::get('/', function () {
 
 Route::prefix('/dashmin')->group(function () {
 
+    // Dashboard
+    Route::get('/', function () {
+        return Inertia::render('Dashboard');
+    })->middleware(['auth', 'verified'])->name('dashboard');
+
     // Auth
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login')
         ->middleware('guest');
 
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-        ->name('logout');
+    Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
-    // Dashboard
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])
+        ->name('logout');
 });

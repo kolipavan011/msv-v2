@@ -1,15 +1,15 @@
 <template>
-    <main class="py-4 bg-light vh-100">
+    <main class="py-4 vh-100">
         <Head title="Login" />
 
         <div class="container" style="margin-top: 100px">
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <div class="card">
+                    <div class="card bg-white">
                         <div class="card-header">Login</div>
 
                         <div class="card-body">
-                            <form method="POST" action="dashmin/login">
+                            <form method="POST" action="/dashmin/login">
                                 <div class="row mb-3">
                                     <label
                                         for="email"

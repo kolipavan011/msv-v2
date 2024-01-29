@@ -36,4 +36,10 @@ Route::prefix('/dashmin')->group(function () {
         ->name('logout');
 
     //others
+    Route::get('/posts', [DashboardController::class, 'index'])->name('posts');
+    Route::get('/categories', [DashboardController::class, 'index'])->name('categories');
+    Route::get('/tags', [DashboardController::class, 'index'])->name('tags');
+    Route::get('/pages', [DashboardController::class, 'index'])->name('pages');
+    Route::get('/vidbot', [DashboardController::class, 'index'])->name('vidbot');
+    Route::get('/setting', [DashboardController::class, 'index'])->name('setting');
 });

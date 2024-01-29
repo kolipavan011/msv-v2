@@ -39,7 +39,7 @@
                             <li class="nav-item" v-for="link in pages">
                                 <a
                                     class="nav-link text-capitalize text-dark px-0"
-                                    :href="route('dashboard')"
+                                    :href="route(link)"
                                 >
                                     {{ link }}
                                 </a>

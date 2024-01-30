@@ -17,7 +17,24 @@ class PageFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'label' => fake()->sentence(3),
+            'title' => fake()->sentence(),
+            'slug' => fake()->slug(),
+            'body' => fake()->text(300),
+            'user_id' => 1
         ];
+    }
+
+    /**
+     * Configure the model factory.
+     */
+    public function configure(): static
+    {
+        return $this->afterCreating(function (\App\Models\Page $page) {
+            $page->seo->update([
+                'title' => $page->title,
+                'description' => fake()->paragraph()
+            ]);
+        });
     }
 }

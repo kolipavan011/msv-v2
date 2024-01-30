@@ -17,7 +17,25 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => fake()->sentence(),
+            'slug' => fake()->slug(),
+            'feature_image' => fake()->imageUrl(),
+            'description' => fake()->paragraph(),
+            'body' => fake()->text(300),
+            'user_id' => 1
         ];
+    }
+
+    /**
+     * Configure the model factory.
+     */
+    public function configure(): static
+    {
+        return $this->afterCreating(function (\App\Models\Post $post) {
+            $post->seo->update([
+                'title' => $post->title,
+                'description' => $post->description
+            ]);
+        });
     }
 }

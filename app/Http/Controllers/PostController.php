@@ -42,7 +42,7 @@ class PostController extends Controller
     public function show(string $id): Response
     {
         return inertia('Post/Edit', [
-            'post' => Post::query()->findOrFail($id),
+            'post' => Post::query()->with('seo')->findOrFail($id),
         ]);
     }
 

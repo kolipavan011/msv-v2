@@ -39,6 +39,7 @@ Route::prefix('/dashmin')->group(function () {
     Route::get('/posts', [PostController::class, 'index'])->name('posts');
     Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
     Route::put('/posts/{id}', [PostController::class, 'update'])->name('posts.update');
+    Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
     //others
     Route::get('/categories', [DashboardController::class, 'index'])->name('categories');
     Route::get('/tags', [DashboardController::class, 'index'])->name('tags');

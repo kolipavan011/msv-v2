@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
 
@@ -23,9 +24,9 @@ class PostController extends Controller
     /**
      * Show the form for creating a new post.
      */
-    public function create()
+    public function create(): RedirectResponse
     {
-        //
+        return redirect()->route('posts');
     }
 
     /**
@@ -57,16 +58,23 @@ class PostController extends Controller
     /**
      * Update the specified post in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id): RedirectResponse
     {
-        //
+        Post::query()->find($id)
+            ->update($request->validate());
+
+        return redirect()->back();
     }
 
     /**
      * Remove the specified post from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): RedirectResponse
     {
-        //
+        Post::query()
+            ->findOrFail($id)
+            ->delate();
+
+        return redirect()->back();
     }
 }

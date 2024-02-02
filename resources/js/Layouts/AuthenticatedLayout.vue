@@ -1,7 +1,7 @@
 <template>
     <div class="inertia-layout">
         <!-- Page Heading -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
             <div class="container">
                 <a class="navbar-brand" href="#">Dashmin</a>
 
@@ -37,12 +37,12 @@
                     <div class="col-12 col-md-3 col-lg-3 d-none d-md-block">
                         <ul class="nav flex-column">
                             <li class="nav-item" v-for="link in pages">
-                                <a
+                                <Link
                                     class="nav-link text-capitalize text-dark px-0"
                                     :href="route(link)"
                                 >
                                     {{ link }}
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>
@@ -56,8 +56,14 @@
 </template>
 
 <script>
+import { Link } from "@inertiajs/vue3";
+
 export default {
     name: "AuthenticatedLayout",
+
+    components: {
+        Link,
+    },
 
     data() {
         return {

@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,8 +35,10 @@ Route::prefix('/dashmin')->group(function () {
     Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 
+    // Posts
+    Route::get('/posts', [PostController::class, 'index'])->name('posts');
+    Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
     //others
-    Route::get('/posts', [DashboardController::class, 'index'])->name('posts');
     Route::get('/categories', [DashboardController::class, 'index'])->name('categories');
     Route::get('/tags', [DashboardController::class, 'index'])->name('tags');
     Route::get('/pages', [DashboardController::class, 'index'])->name('pages');

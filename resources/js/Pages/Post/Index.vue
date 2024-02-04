@@ -69,10 +69,12 @@ import Layout from "../../Layouts/AuthenticatedLayout.vue";
 import Pagination from "../../Shared/Pagination.vue";
 
 export default {
+    layout: Layout,
+
     props: {
         posts: Object,
     },
-    layout: Layout,
+
     components: {
         Head,
         Link,

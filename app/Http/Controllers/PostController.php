@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Response;
+use App\Http\Requests\PostRequest;
+use App\Models\Category;
+use App\Models\Tag;
 
 class PostController extends Controller
 {
@@ -32,7 +34,7 @@ class PostController extends Controller
     /**
      * Store a newly created post in storage.
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
         //
     }
@@ -43,7 +45,9 @@ class PostController extends Controller
     public function show(string $id): Response
     {
         return inertia('Post/Edit', [
-            'post' => Post::query()->with('seo')->findOrFail($id),
+            'post' => Post::query()->with(['seo', 'categories:id,label', 'tags:id,label'])->findOrFail($id),
+            'categories' => Category::query()->get(['id', 'label']),
+            'tags' => Tag::query()->get(['id', 'label']),
         ]);
     }
 
@@ -58,11 +62,33 @@ class PostController extends Controller
     /**
      * Update the specified post in storage.
      */
-    public function update(Request $request, Post $post): RedirectResponse
+    public function update(PostRequest $request, string $id): RedirectResponse
     {
-        $post->update($request->validate());
+        $data = $request->safe()->except('seo');
+        $seo = $request->input('seo', []);
 
-        return redirect()->back();
+        $post = Post::find($id);
+
+        if (!$post) {
+            abort(404);
+        }
+
+        $post->seo->update($seo);
+
+        $post->update($data);
+
+        $categories = collect($request->input('categories', []))->map(function ($category) {
+            return (string) $category['id'];
+        });
+
+        $tags = collect($request->input('tags', []))->map(function ($tag) {
+            return (string) $tag['id'];
+        });
+
+        $post->categories()->sync($categories);
+        $post->tags()->sync($tags);
+
+        return redirect()->back()->with('success', 'Post Updated');
     }
 
     /**

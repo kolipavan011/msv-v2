@@ -42,7 +42,12 @@
                                 >
                                     Edit
                                 </Link>
-                                <a href="#" class="text-danger">Delete</a>
+                                <a
+                                    href="#"
+                                    @click.prevent="deletePost(post.id)"
+                                    class="text-danger"
+                                    >Delete</a
+                                >
                                 <a href="#" class="text-success">Videos</a>
                             </div>
                         </td>
@@ -59,7 +64,7 @@
 </template>
 
 <script>
-import { Head, Link } from "@inertiajs/vue3";
+import { Head, Link, router } from "@inertiajs/vue3";
 import Layout from "../../Layouts/AuthenticatedLayout.vue";
 import Pagination from "../../Shared/Pagination.vue";
 
@@ -72,6 +77,20 @@ export default {
         Head,
         Link,
         Pagination,
+    },
+
+    methods: {
+        deletePost(postid) {
+            this.$vbsModal
+                .confirm({
+                    title: "Delete post",
+                    message: "Do you want to delete this post ?",
+                })
+                .then((confirm) => {
+                    if (confirm)
+                        router.delete(route("posts.destroy", { id: postid }));
+                });
+        },
     },
 };
 </script>

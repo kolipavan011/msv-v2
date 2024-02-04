@@ -58,10 +58,9 @@ class PostController extends Controller
     /**
      * Update the specified post in storage.
      */
-    public function update(Request $request, string $id): RedirectResponse
+    public function update(Request $request, Post $post): RedirectResponse
     {
-        Post::query()->find($id)
-            ->update($request->validate());
+        $post->update($request->validate());
 
         return redirect()->back();
     }
@@ -71,9 +70,7 @@ class PostController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
-        Post::query()
-            ->findOrFail($id)
-            ->delate();
+        Post::findOrFail($id)->delete();
 
         return redirect()->back();
     }

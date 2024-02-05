@@ -38,7 +38,12 @@
                         <ul class="nav flex-column">
                             <li class="nav-item" v-for="link in pages">
                                 <Link
-                                    class="nav-link text-capitalize text-dark px-0"
+                                    class="nav-link text-capitalize px-0"
+                                    :class="
+                                        $page.url.includes(link)
+                                            ? 'text-primary fw-bold'
+                                            : 'text-dark'
+                                    "
                                     :href="route(link)"
                                 >
                                     {{ link }}

@@ -171,7 +171,7 @@ export default {
                 title: this.category.title,
                 slug: this.category.slug,
                 description: this.category.description,
-                body: this.category.description,
+                body: this.category.body,
                 seo: {
                     title: this.category.seo.title,
                     description: this.category.seo.description,

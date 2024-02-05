@@ -3,7 +3,9 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,16 +51,16 @@ Route::prefix('/dashmin')->group(function () {
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
     //tags
-    Route::get('/tags', [DashboardController::class, 'index'])->name('tags');
-    Route::get('/tags/{id}', [DashboardController::class, 'show'])->name('tags.show');
-    Route::put('/tags/{id}', [DashboardController::class, 'update'])->name('tags.update');
-    Route::delete('/tags/{id}', [DashboardController::class, 'destroy'])->name('tags.destroy');
+    Route::get('/tags', [TagController::class, 'index'])->name('tags');
+    Route::get('/tags/{id}', [TagController::class, 'show'])->name('tags.show');
+    Route::put('/tags/{id}', [TagController::class, 'update'])->name('tags.update');
+    Route::delete('/tags/{id}', [TagController::class, 'destroy'])->name('tags.destroy');
 
     //pages
-    Route::get('/pages', [DashboardController::class, 'index'])->name('pages');
-    Route::get('/pages/{id}', [DashboardController::class, 'index'])->name('pages.show');
-    Route::put('/pages/{id}', [DashboardController::class, 'index'])->name('pages.update');
-    Route::delete('/pages/{id}', [DashboardController::class, 'index'])->name('pages.destroy');
+    Route::get('/pages', [PageController::class, 'index'])->name('pages');
+    Route::get('/pages/{id}', [PageController::class, 'show'])->name('pages.show');
+    Route::put('/pages/{id}', [PageController::class, 'update'])->name('pages.update');
+    Route::delete('/pages/{id}', [PageController::class, 'destroy'])->name('pages.destroy');
 
     //vidbot
     Route::get('/vidbot', [DashboardController::class, 'index'])->name('vidbot');

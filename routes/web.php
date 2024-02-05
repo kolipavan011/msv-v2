@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
@@ -42,10 +43,10 @@ Route::prefix('/dashmin')->group(function () {
     Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
 
     //categories
-    Route::get('/categories', [DashboardController::class, 'index'])->name('categories');
-    Route::get('/categories/{id}', [DashboardController::class, 'show'])->name('categories.show');
-    Route::put('/categories/{id}', [DashboardController::class, 'update'])->name('categories.update');
-    Route::delete('/categories/{id}', [DashboardController::class, 'destroy'])->name('categories.destroy');
+    Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
+    Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
+    Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
     //tags
     Route::get('/tags', [DashboardController::class, 'index'])->name('tags');

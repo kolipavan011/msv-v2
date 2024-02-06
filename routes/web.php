@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\VidbotController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,6 +64,6 @@ Route::prefix('/dashmin')->group(function () {
     Route::delete('/pages/{id}', [PageController::class, 'destroy'])->name('pages.destroy');
 
     //vidbot
-    Route::get('/vidbot', [DashboardController::class, 'index'])->name('vidbot');
+    Route::get('/vidbot', [VidbotController::class, "index"])->name('vidbot');
     Route::get('/setting', [DashboardController::class, 'index'])->name('setting');
 });

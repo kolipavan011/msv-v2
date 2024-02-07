@@ -43,7 +43,7 @@
                             :width="video.snippet.thumbnails.medium.width"
                             :height="video.snippet.thumbnails.medium.height"
                             :src="video.snippet.thumbnails.medium.url"
-                            class="card-img-top"
+                            class="card-img-top bg-secondary"
                         />
                         <div class="card-tip">
                             {{ formatDuration(video.contentDetails.duration) }}

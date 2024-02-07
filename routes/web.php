@@ -65,5 +65,8 @@ Route::prefix('/dashmin')->group(function () {
 
     //vidbot
     Route::get('/vidbot', [VidbotController::class, "index"])->name('vidbot');
+    Route::post('/vidbot/{id}', [VidbotController::class, "create"])->name('vidbot.create');
+
+    //setting
     Route::get('/setting', [DashboardController::class, 'index'])->name('setting');
 });

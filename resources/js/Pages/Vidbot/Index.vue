@@ -23,7 +23,7 @@
                         <button
                             class="btn btn-primary btn-sm"
                             type="button"
-                            @click="nextPage()"
+                            @click="fetchPage()"
                         >
                             Search
                         </button>
@@ -102,8 +102,10 @@
 
 <script>
 import { Head, router } from "@inertiajs/vue3";
+import { mapState, mapActions } from "pinia";
 import Layout from "../../Layouts/AuthenticatedLayout.vue";
 import { YoutubeDataAPI } from "youtube-v3-api/dist";
+import { useYoutubePagesStore } from "../../Store/youtubePagesStore";
 
 const Youtube = new YoutubeDataAPI("AIzaSyBTX1j2o0wV9YC9c9VORGEC6LuQOyxiEgc");
 
@@ -128,9 +130,29 @@ export default {
         };
     },
 
+    computed: {
+        ...mapState(useYoutubePagesStore, ["getPage"]),
+    },
+
     methods: {
+        ...mapActions(useYoutubePagesStore, [
+            "addPage",
+            "removePage",
+            "pageExist",
+            "resetPages",
+        ]),
+
         fetchData() {
             if (this.query.length == 0) return;
+
+            let _pageToken = this.pageToken ?? "root";
+
+            if (this.pageExist(_pageToken)) {
+                let page = this.getPage(_pageToken)[0];
+                this.videos = page.items;
+                this.nextToken = page.nextToken;
+                return;
+            }
 
             this.loading = true;
             let params = { type: "video" };
@@ -149,7 +171,18 @@ export default {
                 .then(({ items }) => {
                     this.loading = false;
                     this.videos = items;
+                    this.addPage({
+                        pageToken: this.pageToken ?? "root",
+                        items: items,
+                        nextToken: this.nextToken,
+                    });
                 });
+        },
+
+        fetchPage() {
+            this.resetPages();
+            this.nextToken = null;
+            this.nextPage();
         },
 
         nextPage() {

@@ -4,6 +4,7 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import Modal from "vue-bs-modal";
+import { createPinia } from "pinia";
 
 createInertiaApp({
     title: (title) => `${title} - Dashmin`,
@@ -13,6 +14,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .use(Modal)
+            .use(createPinia())
             .mount(el);
     },
     progress: {

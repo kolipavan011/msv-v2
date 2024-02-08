@@ -24,17 +24,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('/dashmin')->group(function () {
+// Auth
+Route::get('dashmin/login', [AuthenticatedSessionController::class, 'create'])
+    ->name('login')
+    ->middleware('guest');
+Route::post('dashmin/login', [AuthenticatedSessionController::class, 'store']);
+
+// Dashmin
+Route::prefix('/dashmin')->middleware('auth')->group(function () {
 
     // Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-
-    // Auth
-    Route::get('login', [AuthenticatedSessionController::class, 'create'])
-        ->name('login')
-        ->middleware('guest');
-
-    Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
     Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');

@@ -49,6 +49,13 @@
                                     {{ link }}
                                 </Link>
                             </li>
+                            <li class="nav-item">
+                                <a
+                                    :href="route('logout')"
+                                    class="nav-link text-dark px-0"
+                                    >Logout</a
+                                >
+                            </li>
                         </ul>
                     </div>
                     <div class="col-12 col-md-9 col-lg-9">

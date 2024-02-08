@@ -9,7 +9,7 @@
                         <div class="card-header">Login</div>
 
                         <div class="card-body">
-                            <form method="POST" action="/dashmin/login">
+                            <form @submit.prevent="login">
                                 <div class="row mb-3">
                                     <label
                                         for="email"
@@ -26,6 +26,7 @@
                                             required
                                             autocomplete="email"
                                             autofocus
+                                            v-model="form.email"
                                         />
                                     </div>
                                 </div>
@@ -45,6 +46,7 @@
                                             name="password"
                                             required
                                             autocomplete="current-password"
+                                            v-model="form.password"
                                         />
                                     </div>
                                 </div>
@@ -57,6 +59,7 @@
                                                 type="checkbox"
                                                 name="remember"
                                                 id="remember"
+                                                v-model="form.remember"
                                             />
 
                                             <label
@@ -89,13 +92,28 @@
 </template>
 
 <script>
-import { Head } from "@inertiajs/vue3";
+import { Head, useForm } from "@inertiajs/vue3";
 
 export default {
     name: "login",
 
     components: {
         Head,
+    },
+
+    data() {
+        return {
+            form: useForm({
+                email: null,
+                password: null,
+                remember: false,
+            }),
+        };
+    },
+    methods: {
+        login() {
+            this.form.post(route("login"));
+        },
     },
 };
 </script>

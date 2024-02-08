@@ -53,7 +53,11 @@
                                 {{ video.snippet.title }}
                             </p>
                         </div>
-                        <button type="button" class="btn btn-warning rounded-0">
+                        <button
+                            type="button"
+                            class="btn btn-warning rounded-0"
+                            @click="openModal(video)"
+                        >
                             Download
                         </button>
                     </div>
@@ -106,6 +110,7 @@ import { mapState, mapActions } from "pinia";
 import Layout from "../../Layouts/AuthenticatedLayout.vue";
 import { YoutubeDataAPI } from "youtube-v3-api/dist";
 import { useYoutubePagesStore } from "../../Store/youtubePagesStore";
+import videoModal from "../../Components/modals/videoModal.vue";
 
 const Youtube = new YoutubeDataAPI("AIzaSyBTX1j2o0wV9YC9c9VORGEC6LuQOyxiEgc");
 
@@ -201,8 +206,15 @@ export default {
             window.history.back();
         },
 
-        uploadVideo() {
-            // code
+        openModal(item) {
+            this.$vbsModal.open({
+                content: videoModal,
+                contentProps: {
+                    video: item,
+                    keyword: this.query,
+                },
+                staticBackdrop: true, // will disable backdrop click to close modal if true
+            });
         },
 
         formatDuration(duration) {

@@ -7,6 +7,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\VidbotController;
+use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,6 +67,9 @@ Route::prefix('/dashmin')->middleware('auth')->group(function () {
     //vidbot
     Route::get('/vidbot', [VidbotController::class, "index"])->name('vidbot');
     Route::post('/vidbot/{id}', [VidbotController::class, "create"])->name('vidbot.create');
+
+    //video
+    Route::post('/video/{id}', [VideoController::class, "create"])->name('video.create');
 
     //setting
     Route::get('/setting', [DashboardController::class, 'index'])->name('setting');

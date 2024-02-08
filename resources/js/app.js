@@ -6,6 +6,8 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import Modal from "vue-bs-modal";
 import { createPinia } from "pinia";
 
+import request from "./Mixins/request";
+
 createInertiaApp({
     title: (title) => `${title} - Dashmin`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
@@ -15,6 +17,7 @@ createInertiaApp({
             .use(ZiggyVue)
             .use(Modal)
             .use(createPinia())
+            .mixin(request)
             .mount(el);
     },
     progress: {

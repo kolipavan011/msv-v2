@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
-            $table->string('description')->nullable();
             $table->string('thumbnail')->nullable();
             $table->string('path');
             $table->string('size');
-            $table->string('folder_id');
+            $table->bigInteger('folder_id');
+            $table->bigInteger('user_id');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -26,7 +26,7 @@ return new class extends Migration
         Schema::create('folders', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
-            $table->string('folder_id');
+            $table->bigInteger('folder_id');
             $table->timestamps();
             $table->softDeletes();
         });

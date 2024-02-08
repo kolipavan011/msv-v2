@@ -7,7 +7,11 @@
             <div class="d-flex justify-content-between mb-4 align-items-end">
                 <h3 class="mt-2">MEDIA</h3>
 
-                <button type="button" class="btn btn-warning btn-sm">
+                <button
+                    type="button"
+                    class="btn btn-warning btn-sm"
+                    @click="openCreateModal"
+                >
                     New Folder
                 </button>
             </div>
@@ -41,6 +45,7 @@
 <script>
 import { Head } from "@inertiajs/vue3";
 import Layout from "../../Layouts/AuthenticatedLayout.vue";
+import createFolderModal from "../../Components/modals/createFolderModal.vue";
 
 export default {
     layout: Layout,
@@ -51,6 +56,22 @@ export default {
 
     components: {
         Head,
+    },
+
+    methods: {
+        openCreateModal() {
+            this.$vbsModal.open({
+                content: createFolderModal,
+                contentEmits: {
+                    oncreate: this.createFolder,
+                },
+            });
+        },
+
+        createFolder(title) {
+            console.log(title);
+            this.$vbsModal.close();
+        },
     },
 };
 </script>

@@ -85,6 +85,7 @@ export default {
                 "categories",
                 "tags",
                 "pages",
+                "media",
                 "vidbot",
                 "setting",
             ],

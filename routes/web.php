@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FolderController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
@@ -67,6 +68,9 @@ Route::prefix('/dashmin')->middleware('auth')->group(function () {
     //vidbot
     Route::get('/vidbot', [VidbotController::class, "index"])->name('vidbot');
     Route::post('/vidbot/{id}', [VidbotController::class, "create"])->name('vidbot.create');
+
+    //folder
+    Route::get('/media', [FolderController::class, "index"])->name('media');
 
     //video
     Route::post('/video/{id}', [VideoController::class, "create"])->name('video.create');

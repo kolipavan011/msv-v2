@@ -5,13 +5,34 @@ namespace App\Http\Controllers;
 use App\Models\Video;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Inertia\Response;
 use YouTube\YouTubeDownloader;
 use YouTube\Exception\YouTubeException;
 
 class VideoController extends Controller
 {
+    function update(string $id): RedirectResponse
+    {
+        request()->validate([
+            'title' => 'required'
+        ]);
+
+        Video::query()
+            ->findOrFail($id, ['id'])
+            ->update(['title' => request()->input('title')]);
+
+        return redirect()->back();
+    }
+
+    function destroy(string $id): RedirectResponse
+    {
+        Video::findOrFail($id)->delete();
+        return redirect()->back();
+    }
+
     function create(string $id): JsonResponse
     {
         request()->validate([

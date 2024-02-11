@@ -14,18 +14,24 @@ class FolderController extends Controller
         $id = request()->query('id', 1);
 
         return inertia('Media/Index', [
+            'folder' => $id,
             'items' => array_merge(
                 Folder::query()
                     ->where('folder_id', $id)
-                    ->get()
+                    ->get(['id', 'title', 'created_at'])
                     ->map(function ($item) {
                         $item->thumbnail = "/img/next-folder.jpg";
+                        $item->isfolder = true;
                         return $item;
                     })
                     ->toArray(),
                 Video::query()
                     ->where('folder_id', $id)
-                    ->get()
+                    ->get(['id', 'title', 'thumbnail', 'path', 'size', 'created_at'])
+                    ->map(function ($item) {
+                        $item->isfolder = false;
+                        return $item;
+                    })
                     ->toArray()
             )
         ]);

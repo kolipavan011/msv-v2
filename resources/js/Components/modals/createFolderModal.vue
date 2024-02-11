@@ -4,7 +4,7 @@
             type="text"
             class="form-control border-0"
             placeholder="Give title ..."
-            v-model="name"
+            v-model="newName"
             autofocus
         />
         <button class="btn btn-warning" type="button" @click="create">
@@ -14,16 +14,19 @@
 </template>
 <script>
 export default {
+    props: {
+        name: String,
+    },
     emits: ["oncreate"],
     data() {
         return {
-            name: "",
+            newName: this.name,
         };
     },
 
     methods: {
         create() {
-            this.$emit("oncreate", this.name);
+            this.$emit("oncreate", this.newName);
         },
     },
 };

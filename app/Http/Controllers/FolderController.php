@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Folder;
 use App\Models\Video;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
 
@@ -11,13 +12,14 @@ class FolderController extends Controller
 {
     function index(): Response
     {
-        $id = request()->query('id', 1);
+        $folder = Folder::find(request()->query('id', 1));
 
         return inertia('Media/Index', [
-            'folder' => (int) $id,
+            'folder' => $folder->id ?? 1,
+            'name' => $folder->title ?? 'Home',
             'items' => array_merge(
                 Folder::query()
-                    ->where('folder_id', $id)
+                    ->where('folder_id', $folder->id ?? 1)
                     ->get(['id', 'title', 'created_at'])
                     ->map(function ($item) {
                         $item->thumbnail = "/img/next-folder.jpg";
@@ -26,7 +28,7 @@ class FolderController extends Controller
                     })
                     ->toArray(),
                 Video::query()
-                    ->where('folder_id', $id)
+                    ->where('folder_id', $folder->id ?? 1)
                     ->get(['id', 'title', 'thumbnail', 'path', 'size', 'created_at'])
                     ->map(function ($item) {
                         $item->isfolder = false;
@@ -35,5 +37,36 @@ class FolderController extends Controller
                     ->toArray()
             )
         ]);
+    }
+
+    function create(): RedirectResponse
+    {
+        Folder::create(request()->validate([
+            'title' => 'required',
+            'folder_id' => 'required'
+        ]));
+        return redirect()->back();
+    }
+
+    function update(string $id): RedirectResponse
+    {
+        Folder::query()
+            ->find($id)
+            ->update(request()->validate(['title' => 'required']));
+
+        return redirect()->back();
+    }
+
+    function destroy(string $id): RedirectResponse
+    {
+        Folder::query()
+            ->find($id)
+            ->delete();
+
+        Video::query()
+            ->where('folder_id', $id)
+            ->update(['folder_id' => 1]);
+
+        return to_route('media');
     }
 }

@@ -71,6 +71,9 @@ Route::prefix('/dashmin')->middleware('auth')->group(function () {
 
     //folder
     Route::get('/media', [FolderController::class, "index"])->name('media');
+    Route::post('/folder/create', [FolderController::class, "create"])->name('folder.create');
+    Route::put('/folder/{id}', [FolderController::class, "update"])->name('folder.update');
+    Route::delete('/folder/{id}', [FolderController::class, "destroy"])->name('folder.destroy');
 
     //video
     Route::post('/video/{id}', [VideoController::class, "create"])->name('video.create');

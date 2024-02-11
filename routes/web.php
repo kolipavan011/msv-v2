@@ -74,6 +74,7 @@ Route::prefix('/dashmin')->middleware('auth')->group(function () {
 
     //video
     Route::post('/video/{id}', [VideoController::class, "create"])->name('video.create');
+    Route::post('/video/{id}/move', [VideoController::class, "move"])->name('video.move');
     Route::put('/video/{id}', [VideoController::class, "update"])->name('video.update');
     Route::delete('/video/{id}', [VideoController::class, "destroy"])->name('video.destroy');
 

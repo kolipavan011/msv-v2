@@ -14,7 +14,7 @@ class FolderController extends Controller
         $id = request()->query('id', 1);
 
         return inertia('Media/Index', [
-            'folder' => $id,
+            'folder' => (int) $id,
             'items' => array_merge(
                 Folder::query()
                     ->where('folder_id', $id)

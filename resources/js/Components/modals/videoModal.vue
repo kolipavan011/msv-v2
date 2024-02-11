@@ -7,13 +7,6 @@
                     >#</span
                 >
             </h5>
-            <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                @click="$vbsModal.close()"
-            ></button>
         </div>
         <div class="modal-body">
             <img
@@ -38,6 +31,7 @@
                 type="button"
                 class="btn btn-secondary btn-sm"
                 data-bs-dismiss="modal"
+                :disabled="loading"
                 @click="$vbsModal.close()"
             >
                 Close
@@ -76,7 +70,6 @@ export default {
                     keyword: this.keyword,
                 })
                 .then((data) => {
-                    console.log(data);
                     this.loading = false;
                     this.status = "bg-success";
                 })

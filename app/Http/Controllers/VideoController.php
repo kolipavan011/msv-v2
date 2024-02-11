@@ -14,6 +14,15 @@ use YouTube\Exception\YouTubeException;
 
 class VideoController extends Controller
 {
+    function move(string $id): RedirectResponse
+    {
+        Video::query()
+            ->whereIn('id', request()->input('items', []))
+            ->update(['folder_id' => $id]);
+
+        return redirect()->back();
+    }
+
     function update(string $id): RedirectResponse
     {
         request()->validate([

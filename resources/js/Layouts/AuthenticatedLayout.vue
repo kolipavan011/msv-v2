@@ -45,6 +45,7 @@
                                             : 'text-dark'
                                     "
                                     :href="route(link)"
+                                    :preserve-state="false"
                                 >
                                     {{ link }}
                                 </Link>

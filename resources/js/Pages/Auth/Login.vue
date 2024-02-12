@@ -28,6 +28,12 @@
                                             autofocus
                                             v-model="form.email"
                                         />
+                                        <div
+                                            class="form-text text-danger"
+                                            v-if="form.errors"
+                                        >
+                                            {{ form.errors.email }}
+                                        </div>
                                     </div>
                                 </div>
 
@@ -96,6 +102,10 @@ import { Head, useForm } from "@inertiajs/vue3";
 
 export default {
     name: "login",
+
+    props: {
+        errors: Object,
+    },
 
     components: {
         Head,

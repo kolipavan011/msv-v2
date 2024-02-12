@@ -6,6 +6,7 @@ use App\Http\Requests\TagRequest;
 use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
+use Illuminate\Support\Str;
 
 class TagController extends Controller
 {
@@ -24,9 +25,19 @@ class TagController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): RedirectResponse
     {
-        //
+        request()->validate([
+            'title' => 'required',
+        ]);
+
+        Tag::create([
+            'label' => request('title', 'new tag'),
+            'title' => request('title', 'new tag'),
+            'slug' => Str::slug(request('title', 'new tag')),
+            'user_id' => auth()->user()->id
+        ]);
+        return redirect()->back();
     }
 
     /**

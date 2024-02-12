@@ -8,6 +8,8 @@ use Inertia\Response;
 use App\Http\Requests\PostRequest;
 use App\Models\Category;
 use App\Models\Tag;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -19,6 +21,12 @@ class PostController extends Controller
         return inertia('Post/Index', [
             'posts' => Post::query()
                 ->select('id', 'title', 'slug', 'feature_image', 'description', 'created_at')
+                ->when(request()->query('type', 'drafted') != 'drafted', function (Builder $query): Builder {
+                    return $query->where('published_at', '!=', null);
+                }, function (Builder $query): Builder {
+                    return $query->where('published_at', null);
+                })
+                ->latest()
                 ->paginate()
         ]);
     }
@@ -28,7 +36,16 @@ class PostController extends Controller
      */
     public function create(): RedirectResponse
     {
-        return redirect()->route('posts');
+        request()->validate([
+            'title' => 'required',
+        ]);
+
+        Post::create([
+            'title' => request('title', 'new post'),
+            'slug' => Str::slug(request('title', 'new post')),
+            'user_id' => auth()->user()->id
+        ]);
+        return redirect()->back();
     }
 
     /**

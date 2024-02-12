@@ -7,14 +7,23 @@
             <div class="d-flex justify-content-between mb-4 align-items-end">
                 <h3 class="mt-2">POSTS</h3>
 
-                <select
-                    id="post-selector"
-                    name="post-status"
-                    class="ml-auto w-auto border-0 v-100 form-select"
-                >
-                    <option value="published">Published</option>
-                    <option value="draft">Drafted</option>
-                </select>
+                <div class="d-flex gap-2">
+                    <button
+                        type="button"
+                        class="btn btn-primary btn-sm"
+                        @click="openCreateModal"
+                    >
+                        New
+                    </button>
+                    <select
+                        id="post-selector"
+                        name="post-status"
+                        class="border-0 form-select"
+                    >
+                        <option value="published">Published</option>
+                        <option value="draft">Drafted</option>
+                    </select>
+                </div>
             </div>
         </header>
 
@@ -67,6 +76,7 @@
 import { Head, Link, router } from "@inertiajs/vue3";
 import Layout from "../../Layouts/AuthenticatedLayout.vue";
 import Pagination from "../../Shared/Pagination.vue";
+import createFolderModal from "@/Components/modals/createFolderModal.vue";
 
 export default {
     layout: Layout,
@@ -82,6 +92,26 @@ export default {
     },
 
     methods: {
+        openCreateModal() {
+            this.$vbsModal.open({
+                content: createFolderModal,
+                contentProps: {
+                    name: "",
+                },
+                contentEmits: {
+                    oncreate: this.createPost,
+                },
+            });
+        },
+
+        createPost(title) {
+            this.$vbsModal.close();
+            if (title.length == 0) return;
+            router.post(route("posts.create"), {
+                title: title,
+            });
+        },
+
         deletePost(postid) {
             this.$vbsModal
                 .confirm({

@@ -7,9 +7,23 @@
             <div class="d-flex justify-content-between mb-4 align-items-end">
                 <h3 class="mt-2">Category</h3>
 
-                <button type="button" class="btn btn-primary btn-sm">
-                    New Category
-                </button>
+                <div class="d-flex gap-2">
+                    <button
+                        type="button"
+                        class="btn btn-primary btn-sm"
+                        @click="openCreateModal"
+                    >
+                        New
+                    </button>
+                    <select
+                        class="form-select"
+                        v-model="filter"
+                        @change="filterCategories"
+                    >
+                        <option value="untrashed">Active</option>
+                        <option value="trashed">Trashed</option>
+                    </select>
+                </div>
             </div>
         </header>
 
@@ -65,12 +79,19 @@
 import { Head, Link, router } from "@inertiajs/vue3";
 import Layout from "../../Layouts/AuthenticatedLayout.vue";
 import Pagination from "../../Shared/Pagination.vue";
+import createFolderModal from "@/Components/modals/createFolderModal.vue";
 
 export default {
     layout: Layout,
 
     props: {
         posts: Object,
+    },
+
+    data() {
+        return {
+            filter: "trashed",
+        };
     },
 
     components: {
@@ -80,6 +101,30 @@ export default {
     },
 
     methods: {
+        filterCategories() {
+            router.get(route("categories", { filter: this.filter }));
+        },
+
+        openCreateModal() {
+            this.$vbsModal.open({
+                content: createFolderModal,
+                contentProps: {
+                    name: "",
+                },
+                contentEmits: {
+                    oncreate: this.createCategory,
+                },
+            });
+        },
+
+        createCategory(title) {
+            this.$vbsModal.close();
+            if (title.length == 0) return;
+            router.post(route("categories.create"), {
+                title: title,
+            });
+        },
+
         deletePost(postid) {
             this.$vbsModal
                 .confirm({

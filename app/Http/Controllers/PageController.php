@@ -6,6 +6,7 @@ use App\Http\Requests\PageRequest;
 use App\Models\Page;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
+use Illuminate\Support\Str;
 
 class PageController extends Controller
 {
@@ -24,9 +25,19 @@ class PageController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): RedirectResponse
     {
-        //
+        request()->validate([
+            'title' => 'required',
+        ]);
+
+        Page::create([
+            'label' => request('title', 'new page'),
+            'title' => request('title', 'new page'),
+            'slug' => Str::slug(request('title', 'new page')),
+            'user_id' => auth()->user()->id
+        ]);
+        return redirect()->back();
     }
 
     /**

@@ -5,11 +5,21 @@
         <!-- page header -->
         <header class="mb-4">
             <div class="d-flex justify-content-between mb-4 align-items-end">
-                <h3 class="mt-2">PAGES</h3>
+                <h3 class="m-0">PAGES</h3>
 
-                <button type="button" class="btn btn-primary btn-sm">
-                    Add Page
-                </button>
+                <div class="d-flex gap-2">
+                    <button
+                        type="button"
+                        class="btn btn-primary btn-sm"
+                        @click="openCreateModal"
+                    >
+                        New
+                    </button>
+                    <select class="form-select">
+                        <option value="untrashed">Active</option>
+                        <option value="trashed">Trashed</option>
+                    </select>
+                </div>
             </div>
         </header>
 
@@ -61,6 +71,7 @@
 import { Head, Link, router } from "@inertiajs/vue3";
 import Layout from "../../Layouts/AuthenticatedLayout.vue";
 import Pagination from "../../Shared/Pagination.vue";
+import createFolderModal from "@/Components/modals/createFolderModal.vue";
 
 export default {
     layout: Layout,
@@ -76,6 +87,26 @@ export default {
     },
 
     methods: {
+        openCreateModal() {
+            this.$vbsModal.open({
+                content: createFolderModal,
+                contentProps: {
+                    name: "",
+                },
+                contentEmits: {
+                    oncreate: this.createPage,
+                },
+            });
+        },
+
+        createPage(title) {
+            this.$vbsModal.close();
+            if (title.length == 0) return;
+            router.post(route("pages.create"), {
+                title: title,
+            });
+        },
+
         deletePost(pageid) {
             this.$vbsModal
                 .confirm({

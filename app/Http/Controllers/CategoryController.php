@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -17,16 +19,27 @@ class CategoryController extends Controller
             'posts' => Category::query()
                 ->select('id', 'created_at', 'label')
                 ->latest()
-                ->paginate(),
+                ->paginate()
+                ->withQueryString(),
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): RedirectResponse
     {
-        //
+        request()->validate([
+            'title' => 'required',
+        ]);
+
+        Category::create([
+            'label' => request('title', 'new category'),
+            'title' => request('title', 'new category'),
+            'slug' => Str::slug(request('title', 'new category')),
+            'user_id' => auth()->user()->id
+        ]);
+        return redirect()->back();
     }
 
     /**

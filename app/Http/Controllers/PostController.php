@@ -19,15 +19,21 @@ class PostController extends Controller
     public function index(): Response
     {
         return inertia('Post/Index', [
+            'filter' => request('filter', 'published'),
             'posts' => Post::query()
-                ->select('id', 'title', 'slug', 'feature_image', 'description', 'created_at')
-                ->when(request()->query('type', 'drafted') != 'drafted', function (Builder $query): Builder {
-                    return $query->whereNot('published_at', null);
+                ->select('id', 'title', 'slug', 'feature_image', 'description', 'created_at', 'deleted_at')
+                ->when(request()->query('filter', 'published') != 'trashed', function (Builder $query): Builder {
+                    if (request('filter', 'published') == 'published') {
+                        return $query->whereNot('published_at', null);
+                    } else {
+                        return $query->where('published_at', null);
+                    }
                 }, function (Builder $query): Builder {
-                    return $query->where('published_at', null);
+                    return $query->onlyTrashed();
                 })
                 ->latest()
                 ->paginate()
+                ->withQueryString()
         ]);
     }
 
@@ -114,6 +120,22 @@ class PostController extends Controller
     public function destroy(string $id): RedirectResponse
     {
         Post::findOrFail($id)->delete();
+
+        return redirect()->back();
+    }
+
+    /**
+     * Restore the specified resource from storage.
+     */
+    public function restore(string $id): RedirectResponse
+    {
+        $post = Post::query()
+            ->withTrashed()->findOrFail($id);
+
+        if ($post->deleted_at != null) {
+            $post->restore();
+        }
+
 
         return redirect()->back();
     }

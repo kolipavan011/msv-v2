@@ -19,9 +19,12 @@
                         id="post-selector"
                         name="post-status"
                         class="border-0 form-select"
+                        v-model="type"
+                        @change="filterPosts"
                     >
                         <option value="published">Published</option>
-                        <option value="draft">Drafted</option>
+                        <option value="drafted">Drafted</option>
+                        <option value="trashed">Trashed</option>
                     </select>
                 </div>
             </div>
@@ -48,6 +51,7 @@
                             <div class="links-group">
                                 <Link
                                     :href="route('posts.show', { id: post.id })"
+                                    v-if="post.deleted_at == null"
                                 >
                                     Edit
                                 </Link>
@@ -57,7 +61,19 @@
                                     class="text-danger"
                                     >Delete</a
                                 >
-                                <a href="#" class="text-success">Videos</a>
+                                <a
+                                    href="#"
+                                    class="text-success"
+                                    v-if="post.deleted_at == null"
+                                    >Videos</a
+                                >
+                                <Link
+                                    :href="route('posts.restore', post.id)"
+                                    v-if="post.deleted_at != null"
+                                    class="text-warning"
+                                >
+                                    Restore
+                                </Link>
                             </div>
                         </td>
                         <td class="d-none d-md-table-cell w-25">
@@ -83,6 +99,7 @@ export default {
 
     props: {
         posts: Object,
+        filter: String,
     },
 
     components: {
@@ -91,7 +108,17 @@ export default {
         Pagination,
     },
 
+    data() {
+        return {
+            type: this.filter,
+        };
+    },
+
     methods: {
+        filterPosts() {
+            router.get(route("posts", { filter: this.type }));
+        },
+
         openCreateModal() {
             this.$vbsModal.open({
                 content: createFolderModal,

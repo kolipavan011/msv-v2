@@ -7,7 +7,9 @@
                 <div class="col-12 col-sm-6" v-for="item in cards">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title text-muted">100</h5>
+                            <h5 class="card-title text-muted">
+                                {{ $page.props[item] }}
+                            </h5>
                             <p class="card-text text-uppercase fw-bold">
                                 {{ item }}
                             </p>
@@ -28,6 +30,13 @@ export default {
 
     layout: Layout,
 
+    props: {
+        posts: Number,
+        categories: Number,
+        tags: Number,
+        pages: Number,
+    },
+
     components: {
         Head,
     },
@@ -36,6 +45,10 @@ export default {
         return {
             cards: ["posts", "categories", "tags", "pages"],
         };
+    },
+
+    mounted() {
+        console.log(this.$page);
     },
 };
 </script>

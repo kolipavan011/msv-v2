@@ -22,7 +22,7 @@ class PostController extends Controller
             'posts' => Post::query()
                 ->select('id', 'title', 'slug', 'feature_image', 'description', 'created_at')
                 ->when(request()->query('type', 'drafted') != 'drafted', function (Builder $query): Builder {
-                    return $query->where('published_at', '!=', null);
+                    return $query->whereNot('published_at', null);
                 }, function (Builder $query): Builder {
                     return $query->where('published_at', null);
                 })

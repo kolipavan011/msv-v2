@@ -15,7 +15,11 @@
                     >
                         New
                     </button>
-                    <select class="form-select">
+                    <select
+                        class="form-select"
+                        v-model="type"
+                        @change="filterPages"
+                    >
                         <option value="untrashed">Active</option>
                         <option value="trashed">Trashed</option>
                     </select>
@@ -43,7 +47,8 @@
                             </p>
                             <div class="links-group">
                                 <Link
-                                    :href="route('pages.show', { id: post.id })"
+                                    :href="route('pages.show', post.id)"
+                                    v-if="post.deleted_at == null"
                                 >
                                     Edit
                                 </Link>
@@ -53,6 +58,13 @@
                                     class="text-danger"
                                     >Delete</a
                                 >
+                                <Link
+                                    :href="route('pages.restore', post.id)"
+                                    class="text-warning"
+                                    v-if="post.deleted_at != null"
+                                >
+                                    Restore
+                                </Link>
                             </div>
                         </td>
                         <td class="d-none d-md-table-cell w-25">
@@ -78,6 +90,7 @@ export default {
 
     props: {
         pages: Object,
+        filter: String,
     },
 
     components: {
@@ -86,7 +99,17 @@ export default {
         Pagination,
     },
 
+    data() {
+        return {
+            type: this.filter,
+        };
+    },
+
     methods: {
+        filterPages() {
+            router.get(route("pages", { filter: this.type }));
+        },
+
         openCreateModal() {
             this.$vbsModal.open({
                 content: createFolderModal,

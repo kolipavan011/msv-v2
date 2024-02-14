@@ -10,14 +10,14 @@
                 <div class="d-flex gap-2">
                     <button
                         type="button"
-                        class="btn btn-primary btn-sm"
+                        class="btn btn-danger btn-sm"
                         @click="openCreateModal"
                     >
                         New
                     </button>
                     <select
                         class="form-select"
-                        v-model="filter"
+                        v-model="type"
                         @change="filterCategories"
                     >
                         <option value="untrashed">Active</option>
@@ -47,6 +47,7 @@
                             </p>
                             <div class="links-group">
                                 <Link
+                                    v-if="post.deleted_at == null"
                                     :href="
                                         route('categories.show', {
                                             id: post.id,
@@ -60,6 +61,12 @@
                                     @click.prevent="deletePost(post.id)"
                                     class="text-danger"
                                     >Delete</a
+                                >
+                                <Link
+                                    :href="route('categories.restore', post.id)"
+                                    class="text-warning"
+                                    v-if="post.deleted_at != null"
+                                    >Restore</Link
                                 >
                             </div>
                         </td>
@@ -86,11 +93,12 @@ export default {
 
     props: {
         posts: Object,
+        filter: String,
     },
 
     data() {
         return {
-            filter: "trashed",
+            type: this.filter,
         };
     },
 
@@ -102,7 +110,7 @@ export default {
 
     methods: {
         filterCategories() {
-            router.get(route("categories", { filter: this.filter }));
+            router.get(route("categories", { filter: this.type }));
         },
 
         openCreateModal() {

@@ -7,6 +7,7 @@ use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
 
 class TagController extends Controller
 {
@@ -16,7 +17,13 @@ class TagController extends Controller
     public function index(): Response
     {
         return inertia("Tag/Index", [
-            'tags' => Tag::query()->select('id', 'label', 'created_at')
+            'filter' => request('filter', 'untrashed'),
+            'tags' => Tag::query()->select('id', 'label', 'created_at', 'deleted_at')
+                ->when(request('filter', 'untrashed') != 'untrashed', function (Builder $query): Builder {
+                    return $query->onlyTrashed();
+                }, function (Builder $query): Builder {
+                    return $query;
+                })
                 ->latest()
                 ->paginate()
         ]);
@@ -92,7 +99,31 @@ class TagController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
-        Tag::query()->findOrFail($id)->delete();
+        $tag = Tag::query()
+            ->withTrashed()->findOrFail($id);
+
+        if ($tag->deleted_at == null) {
+            $tag->delete();
+        } else {
+            $tag->forceDelete();
+        }
+
+
+        return redirect()->back();
+    }
+
+    /**
+     * Restore the specified resource from storage.
+     */
+    public function restore(string $id): RedirectResponse
+    {
+        $tag = Tag::query()
+            ->withTrashed()->findOrFail($id);
+
+        if ($tag->deleted_at != null) {
+            $tag->restore();
+        }
+
 
         return redirect()->back();
     }

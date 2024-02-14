@@ -7,6 +7,8 @@ use App\Models\Page;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class PageController extends Controller
 {
@@ -16,7 +18,13 @@ class PageController extends Controller
     public function index(): Response
     {
         return inertia("Page/Index", [
-            'pages' => Page::query()->select('id', 'label', 'created_at')
+            'filter' => request('filter', 'untrashed'),
+            'pages' => Page::query()->select('id', 'label', 'created_at', 'deleted_at')
+                ->when(request('filter', 'untrashed') != 'untrashed', function (Builder $query): Builder {
+                    return $query->onlyTrashed();
+                }, function (Builder $query): Builder {
+                    return $query;
+                })
                 ->latest()
                 ->paginate()
         ]);
@@ -93,7 +101,31 @@ class PageController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
-        Page::findOrFail($id)->delete();
+        $page = Page::query()
+            ->withTrashed()->findOrFail($id);
+
+        if ($page->deleted_at == null) {
+            $page->delete();
+        } else {
+            $page->forceDelete();
+        }
+
+
+        return redirect()->back();
+    }
+
+    /**
+     * Restore the specified resource from storage.
+     */
+    public function restore(string $id): RedirectResponse
+    {
+        $page = Page::query()
+            ->withTrashed()->findOrFail($id);
+
+        if ($page->deleted_at != null) {
+            $page->restore();
+        }
+
 
         return redirect()->back();
     }

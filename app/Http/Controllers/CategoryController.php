@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
 use Illuminate\Support\Str;
@@ -16,8 +17,14 @@ class CategoryController extends Controller
     public function index(): Response
     {
         return inertia("Category/Index", [
+            'filter' => request('filter', 'untrashed'),
             'posts' => Category::query()
-                ->select('id', 'created_at', 'label')
+                ->select('id', 'created_at', 'label', 'deleted_at')
+                ->when(request('filter', 'untrashed') != 'untrashed', function (Builder $query): Builder {
+                    return $query->onlyTrashed();
+                }, function (Builder $query): Builder {
+                    return $query;
+                })
                 ->latest()
                 ->paginate()
                 ->withQueryString(),
@@ -95,7 +102,29 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        Category::findOrFail($id)->delete();
+        $category = Category::query()
+            ->withTrashed()->findOrFail($id);
+
+        if ($category->deleted_at == null) {
+            $category->delete();
+        } else {
+            $category->forceDelete();
+        }
+
+        return redirect()->back();
+    }
+
+    /**
+     * Restore the specified resource from storage.
+     */
+    public function restore(string $id)
+    {
+        $category = Category::query()
+            ->withTrashed()->findOrFail($id);
+
+        if ($category->deleted_at != null) {
+            $category->restore();
+        }
 
         return redirect()->back();
     }

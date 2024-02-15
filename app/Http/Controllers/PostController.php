@@ -8,7 +8,9 @@ use Inertia\Response;
 use App\Http\Requests\PostRequest;
 use App\Models\Category;
 use App\Models\Tag;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -57,9 +59,37 @@ class PostController extends Controller
     /**
      * Store a newly created post in storage.
      */
-    public function store(PostRequest $request)
+    public function storeImage(string $id)
     {
-        //
+        $payload = request()->file();
+        $now = Carbon::now();
+
+        if (!$payload) {
+            return redirect()->back();
+        }
+
+        // Only grab the first element because single file uploads
+        // are not supported at this time
+        $file = reset($payload);
+        $path = $file->storeAs('public/images/' . $now->year, str_replace(" ", "-", $file->getClientOriginalName()));
+
+        Post::query()->withTrashed()->find($id)->update(['feature_image' => $path]);
+
+        return to_route('posts');
+    }
+
+    /**
+     * Store a newly created post in storage.
+     */
+    public function removeImage(string $id): RedirectResponse
+    {
+        $post = Post::query()->withTrashed()->find($id);
+
+        if (Storage::delete($post->feature_image)) {
+            $post->update(['feature_image' => null]);
+        }
+
+        return to_route('posts');
     }
 
     /**

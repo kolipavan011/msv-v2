@@ -154,18 +154,34 @@
                                 <input
                                     type="text"
                                     class="form-control"
-                                    placeholder="post slug ..."
-                                    aria-label="post slug"
-                                    aria-describedby="post-slug"
+                                    placeholder="post image ..."
+                                    aria-label="post image"
+                                    aria-describedby="post-image"
                                     readonly
                                     v-model="form.feature_image"
+                                />
+                                <input
+                                    type="file"
+                                    class="d-none"
+                                    ref="image"
+                                    accept="image/*"
+                                    @change="featureImage"
                                 />
                                 <button
                                     class="btn btn-warning btn-sm"
                                     type="button"
                                     id="button-slug"
+                                    @click="$refs.image.click()"
                                 >
                                     select
+                                </button>
+                                <button
+                                    class="btn btn-danger btn-sm"
+                                    type="button"
+                                    id="button-slug"
+                                    @click="removeImage"
+                                >
+                                    remove
                                 </button>
                             </div>
                         </div>
@@ -205,7 +221,7 @@
 </template>
 
 <script>
-import { Head, Link, useForm } from "@inertiajs/vue3";
+import { Head, Link, useForm, router } from "@inertiajs/vue3";
 import Slugify from "../../Mixins/slugify";
 import Layout from "../../Layouts/AuthenticatedLayout.vue";
 import { VueEditor } from "vue3-editor";
@@ -253,16 +269,23 @@ export default {
 
     methods: {
         submit() {
-            this.form.put(route("posts.update", { id: this.post.id }));
+            this.form.put(route("posts.update", this.post.id));
         },
 
         featureImage() {
-            this.$vbsModal
-                .confirm({
-                    title: "Unsaved Changes",
-                    message: "Are you sure you want to leave this page?",
-                })
-                .then((data) => console.log(data));
+            router.post(
+                route("posts.store", this.post.id),
+                {
+                    image: this.$refs.image.files[0],
+                },
+                {
+                    forceFormData: true,
+                }
+            );
+        },
+
+        removeImage() {
+            router.delete(route("posts.remove", this.post.id));
         },
 
         postSlugify(str) {

@@ -61,11 +61,11 @@
                                     class="text-danger"
                                     >Delete</a
                                 >
-                                <a
-                                    href="#"
+                                <Link
+                                    :href="route('posts.select', [post.id, 1])"
                                     class="text-success"
                                     v-if="post.deleted_at == null"
-                                    >Videos</a
+                                    >Videos</Link
                                 >
                                 <Link
                                     :href="route('posts.restore', post.id)"

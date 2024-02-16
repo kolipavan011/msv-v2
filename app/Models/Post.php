@@ -58,4 +58,12 @@ class Post extends Model
     {
         return $this->belongsToMany(Category::class, 'posts_categories', 'post_id', 'category_id');
     }
+
+    /**
+     * The videos that belong to this post.
+     */
+    public function videos(): BelongsToMany
+    {
+        return $this->belongsToMany(Video::class, 'posts_videos', 'post_id', 'video_id');
+    }
 }

@@ -50,6 +50,8 @@ Route::prefix('/dashmin')->middleware('auth')->group(function () {
     Route::put('/posts/{id}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
     Route::get('/posts/{id}/restore', [PostController::class, 'restore'])->name('posts.restore');
+    Route::post('/posts/{id}/sync-video', [PostController::class, 'sync'])->name('posts.sync');
+    Route::get('/posts/{id}/selector/{folderId}', [FolderController::class, 'select'])->name('posts.select');
 
     //categories
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories');

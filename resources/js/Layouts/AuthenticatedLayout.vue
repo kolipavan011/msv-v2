@@ -51,14 +51,12 @@
 
 <script>
 import { Link } from "@inertiajs/vue3";
-import Gravatar from "vue-gravatar";
 
 export default {
     name: "AuthenticatedLayout",
 
     components: {
         Link,
-        Gravatar,
     },
 
     data() {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Folder;
+use App\Models\Post;
 use App\Models\Video;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,6 +16,39 @@ class FolderController extends Controller
         $folder = Folder::find(request()->query('id', 1));
 
         return inertia('Media/Index', [
+            'folder' => $folder->id ?? 1,
+            'name' => $folder->title ?? 'Home',
+            'items' => array_merge(
+                Folder::query()
+                    ->where('folder_id', $folder->id ?? 1)
+                    ->get(['id', 'title', 'created_at'])
+                    ->map(function ($item) {
+                        $item->thumbnail = "/img/next-folder.jpg";
+                        $item->isfolder = true;
+                        return $item;
+                    })
+                    ->toArray(),
+                Video::query()
+                    ->where('folder_id', $folder->id ?? 1)
+                    ->get(['id', 'title', 'thumbnail', 'path', 'size', 'created_at'])
+                    ->map(function ($item) {
+                        $item->isfolder = false;
+                        return $item;
+                    })
+                    ->toArray()
+            )
+        ]);
+    }
+
+    function select(string $id, string $folderId = "1"): Response
+    {
+        $folder = Folder::find(request()->query('id', $folderId));
+
+        return inertia('Media/Selector', [
+            'post' => (int) $id,
+            'selection' => Post::find($id)->videos->map(function ($item) {
+                return $item->id;
+            }),
             'folder' => $folder->id ?? 1,
             'name' => $folder->title ?? 'Home',
             'items' => array_merge(

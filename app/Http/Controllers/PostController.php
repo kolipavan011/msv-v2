@@ -107,9 +107,14 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified post.
      */
-    public function edit(string $id)
+    public function sync(string $id): RedirectResponse
     {
-        //
+        Post::query()
+            ->findOrFail($id)
+            ->videos()
+            ->sync(request('items', []));
+
+        return to_route('posts');
     }
 
     /**

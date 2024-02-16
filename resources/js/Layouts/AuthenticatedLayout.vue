@@ -4,28 +4,16 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
             <div class="container">
                 <a class="navbar-brand" href="#">Dashmin</a>
-
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    aria-controls="navbarSupportedContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#"
-                                >Home</a
-                            >
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                    </ul>
+                <div>
+                    <a :href="route('logout')">
+                        <img
+                            width="40px"
+                            height="40px"
+                            class="rounded-circle"
+                            src="https://gravatar.com/avatar/96c61dea289cb9b68667116e0a62bd6a?s=200&d=robohash&r=x"
+                            alt=""
+                        />
+                    </a>
                 </div>
             </div>
         </nav>
@@ -50,13 +38,6 @@
                                     {{ link }}
                                 </Link>
                             </li>
-                            <li class="nav-item">
-                                <a
-                                    :href="route('logout')"
-                                    class="nav-link text-dark px-0"
-                                    >Logout</a
-                                >
-                            </li>
                         </ul>
                     </div>
                     <div class="col-12 col-md-9 col-lg-9">
@@ -70,12 +51,14 @@
 
 <script>
 import { Link } from "@inertiajs/vue3";
+import Gravatar from "vue-gravatar";
 
 export default {
     name: "AuthenticatedLayout",
 
     components: {
         Link,
+        Gravatar,
     },
 
     data() {

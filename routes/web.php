@@ -24,10 +24,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [ThemeController::class, "index"]);
-Route::get('/{slug}', [ThemeController::class, "post"])->name('post');
-Route::get('/category/{slug}', [ThemeController::class, "category"])->name('category');
-Route::get('/tag/{slug}', [ThemeController::class, "tag"])->name('tag');
-Route::get('/page/{slug}', [ThemeController::class, "page"])->name('page');
 
 // Auth
 Route::get('dashmin/login', [AuthenticatedSessionController::class, 'create'])
@@ -99,3 +95,8 @@ Route::prefix('/dashmin')->middleware('auth')->group(function () {
     //setting
     Route::get('/setting', [DashboardController::class, 'index'])->name('setting');
 });
+
+Route::get('/{slug}', [ThemeController::class, "post"])->name('post');
+Route::get('/category/{slug}', [ThemeController::class, "category"])->name('category');
+Route::get('/tag/{slug}', [ThemeController::class, "tag"])->name('tag');
+Route::get('/page/{slug}', [ThemeController::class, "page"])->name('page');

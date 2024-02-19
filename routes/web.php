@@ -96,6 +96,7 @@ Route::prefix('/dashmin')->middleware('auth')->group(function () {
     Route::get('/setting', [DashboardController::class, 'index'])->name('setting');
 });
 
+// themes routes
 Route::get('/{slug}', [ThemeController::class, "post"])->name('post');
 Route::get('/category/{slug}', [ThemeController::class, "category"])->name('category');
 Route::get('/tag/{slug}', [ThemeController::class, "tag"])->name('tag');

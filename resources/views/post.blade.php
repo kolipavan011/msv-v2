@@ -26,7 +26,7 @@
                 <article class="col" id="post-{{$video->id}}">
                     <div class="card h-100">
                         <div class="video-container">
-                            <video id="video-{{$video->id}}" class="bg-secondary w-100 card-img-top" width="360" height="260" src="{{ url($video->path) }}" poster="{{ url($video->thumbnail) }}" preload="none"></video>
+                            <video style="background-color: #ccc;" id="video-{{$video->id}}" class="w-100 card-img-top" width="360" height="260" src="{{ url($video->path) }}" poster="{{ url($video->thumbnail) }}" preload="none"></video>
                             <a href="#" class="play-btn" role="button" data-video="video-{{$video->id}}">
                                 <span class="play-icon bg-danger rounded-circle">
                                     <svg fill="#fff" class="material-design-icon__svg" width="50" height="50" viewBox="0 0 24 24">

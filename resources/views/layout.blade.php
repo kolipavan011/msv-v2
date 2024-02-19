@@ -29,7 +29,7 @@
     <div class="footer">
         @include('footer')
     </div>
-
+    @vite('resources/js/script.js')
 </body>
 
 </html>

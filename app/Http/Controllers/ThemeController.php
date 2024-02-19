@@ -10,12 +10,14 @@ use Illuminate\View\View;
 
 class ThemeController extends Controller
 {
+    public const PER_PAGE = 20;
+
     function index(): View
     {
         $posts = Post::query()
             // ->whereNot('published_at', null)
             ->latest('published_at')
-            ->paginate();
+            ->paginate(Self::PER_PAGE);
 
         $pages = Page::all();
         $categories = Category::all();
@@ -24,13 +26,30 @@ class ThemeController extends Controller
         return view('home', compact(['posts', 'pages', 'tags', 'categories']));
     }
 
+    function post(string $slug): View
+    {
+        $post = Post::query()
+            ->where('slug', $slug)
+            ->first();
+
+        $videos = $post->videos()->paginate(Self::PER_PAGE);
+
+        // dd($videos);
+
+        $pages = Page::all();
+        $categories = Category::all();
+        $tags = Tag::all();
+
+        return view('post', compact(['post', 'videos', 'pages', 'tags', 'categories']));
+    }
+
     function category(string $slug): View
     {
         $archive = Category::query()
             ->where('slug', $slug)
             ->first();
 
-        $posts = $archive->posts()->paginate();
+        $posts = $archive->posts()->paginate(Self::PER_PAGE);
 
         $pages = Page::all();
         $categories = Category::all();
@@ -45,7 +64,7 @@ class ThemeController extends Controller
             ->where('slug', $slug)
             ->first();
 
-        $posts = $archive->posts()->paginate();
+        $posts = $archive->posts()->paginate(Self::PER_PAGE);
 
         $pages = Page::all();
         $categories = Category::all();

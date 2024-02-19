@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 
@@ -40,4 +41,12 @@ class Tag extends Model
     protected $casts = [
         'created_at' => 'datetime:d-m-Y',
     ];
+
+    /**
+     * The post that belong to the tags.
+     */
+    public function posts(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'posts_tags', 'tag_id', 'post_id');
+    }
 }

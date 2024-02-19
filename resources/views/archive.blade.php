@@ -6,14 +6,15 @@
         <div class="container">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb flex-nowrap">
-                    <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item active text-truncate" aria-current="page">Lorem ipsum dolor sit amet. {{ $archive->label }}</li>
+                    <li class="breadcrumb-item"><a href="/" class="text-danger">Home</a></li>
+                    <li class="breadcrumb-item active text-truncate text-muted" aria-current="page">Lorem ipsum dolor sit amet. {{ $archive->label }}</li>
                 </ol>
             </nav>
         </div>
         <div class="container">
             <header>
                 <h1 class="mb-3 h2">{{ $archive->title }}</h1>
+                @include('components.share')
                 {!! $archive->description !!}
             </header>
         </div>
@@ -25,19 +26,19 @@
                 <article class="col" id="post-{{$post->id}}">
                     <div class="card h-100">
                         @isset($post->feature_image)
-                        <a href="#">
+                        <a href="{{ route('post', ['slug' => $post->slug]) }}">
                             <img class="bg-secondary w-100 card-img-top" width="360" height="270" src="{{ Storage::url($post->feature_image) }}" alt="{{$post->title}}">
                         </a>
                         @endisset
                         <div class="card-body">
-                            <a href="#">
+                            <a href="{{ route('post', ['slug' => $post->slug]) }}">
                                 <h2 class="h4 card-title text-dark">{{ $post->title }}</h2>
                             </a>
                         </div>
                     </div>
                 </article>
                 @empty
-                <div class="p-5 text-center fw-bold border border-danger flex-grow-1 rounded">
+                <div class=" p-5 text-center fw-bold border border-danger flex-grow-1 rounded">
                     <p class="m-0 text-danger">No posts found ..!</p>
                 </div>
                 @endforelse

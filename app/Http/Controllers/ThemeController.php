@@ -38,4 +38,19 @@ class ThemeController extends Controller
 
         return view('archive', compact(['archive', 'posts', 'pages', 'tags', 'categories']));
     }
+
+    function tag(string $slug): View
+    {
+        $archive = Tag::query()
+            ->where('slug', $slug)
+            ->first();
+
+        $posts = $archive->posts()->paginate();
+
+        $pages = Page::all();
+        $categories = Category::all();
+        $tags = Tag::all();
+
+        return view('archive', compact(['archive', 'posts', 'pages', 'tags', 'categories']));
+    }
 }

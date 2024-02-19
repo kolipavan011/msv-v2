@@ -2,20 +2,28 @@
 
 @section('content')
 <main class="main-content">
-    <div class="py-5 bg-white">
-        <div class="container text-center">
+    <div class="py-4 bg-white">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb flex-nowrap">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active text-truncate" aria-current="page">Lorem ipsum dolor sit amet. {{ $archive->label }}</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="container">
             <header>
-                <h1 class="mb-3">Mirchi Status Video Download</h1>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facere nihil at mollitia ipsa vel. Aut ut doloremque magnam earum odit dignissimos ab nam fuga alias quas ipsum nisi ea dicta quod blanditiis enim expedita quis, architecto accusamus at id, eveniet possimus! Expedita, maiores consectetur tempore corporis accusantium minus quasi facere.</p>
+                <h1 class="mb-3 h2">{{ $archive->title }}</h1>
+                {!! $archive->description !!}
             </header>
         </div>
     </div>
     <div class="my-5">
         <div class="container">
-            <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-4">
-                @foreach ($posts as $post)
+            <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
+                @forelse ($posts as $post)
                 <article class="col" id="post-{{$post->id}}">
-                    <div class="card">
+                    <div class="card h-100">
                         @isset($post->feature_image)
                         <a href="#">
                             <img class="bg-secondary w-100 card-img-top" width="360" height="270" src="{{ Storage::url($post->feature_image) }}" alt="{{$post->title}}">
@@ -28,11 +36,20 @@
                         </div>
                     </div>
                 </article>
-                @endforeach
+                @empty
+                <div class="p-5 text-center fw-bold border border-danger flex-grow-1 rounded">
+                    <p class="m-0 text-danger">No posts found ..!</p>
+                </div>
+                @endforelse
             </div>
-            <div class="row my-5">
+            <div class="row mb-5">
                 <div class="col-12">
                     {{ $posts->onEachSide(1)->links() }}
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-12">
+                    {!! $archive->body !!}
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@
 
     <div class="flex-sm-fill d-flex align-items-center justify-content-center">
         <div>
-            <ul class="pagination">
+            <ul class="pagination mb-0">
                 {{-- Previous Page Link --}}
                 @if ($paginator->onFirstPage())
                 <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">

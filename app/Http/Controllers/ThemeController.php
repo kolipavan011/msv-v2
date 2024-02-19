@@ -26,15 +26,16 @@ class ThemeController extends Controller
 
     function category(string $slug): View
     {
-        $posts = Post::query()
-            // ->whereNot('published_at', null)
-            ->latest('published_at')
-            ->paginate();
+        $archive = Category::query()
+            ->where('slug', $slug)
+            ->first();
+
+        $posts = $archive->posts()->paginate();
 
         $pages = Page::all();
         $categories = Category::all();
         $tags = Tag::all();
 
-        return view('home', compact(['posts', 'pages', 'tags', 'categories']));
+        return view('archive', compact(['archive', 'posts', 'pages', 'tags', 'categories']));
     }
 }

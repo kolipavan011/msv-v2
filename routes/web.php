@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\VidbotController;
@@ -95,6 +96,12 @@ Route::prefix('/dashmin')->middleware('auth')->group(function () {
     //setting
     Route::get('/setting', [DashboardController::class, 'index'])->name('setting');
 });
+
+// sitemap routes
+Route::get('/sitemap.xml', [SitemapController::class, "index"])
+    ->middleware('lscache:max-age:7200')->name('sitemap');
+Route::get('/sitemap/{slug}', [SitemapController::class, "single"])
+    ->middleware('lscache:max-age:7200')->name('sitemap.single');
 
 // themes routes
 Route::get('/{slug}', [ThemeController::class, "post"])

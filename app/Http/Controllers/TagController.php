@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
+use Litespeed\LSCache\LSCache;
 
 class TagController extends Controller
 {
@@ -90,6 +91,8 @@ class TagController extends Controller
 
         $tag->update($data);
         $tag->seo->update($seo);
+
+        LSCache::purge('/', route('tag', ['slug', $tag->slug]));
 
         return redirect()->back()->with('success', 'Tag Updated');
     }

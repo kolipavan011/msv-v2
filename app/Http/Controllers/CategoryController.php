@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
 use Illuminate\Support\Str;
+use Litespeed\LSCache\LSCache;
 
 class CategoryController extends Controller
 {
@@ -93,6 +94,8 @@ class CategoryController extends Controller
 
         $category->update($data);
         $category->seo->update($seo);
+
+        LSCache::purge('/', route('tag', ['slug', $category->slug]));
 
         return redirect()->back()->with('success', 'Category Updated');
     }

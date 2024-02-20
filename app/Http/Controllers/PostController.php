@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Litespeed\LSCache\LSCache;
 
 class PostController extends Controller
 {
@@ -145,6 +146,8 @@ class PostController extends Controller
 
         $post->categories()->sync($categories);
         $post->tags()->sync($tags);
+
+        LSCache::purge('/', route('post', ['slug', $post->slug]));
 
         return redirect()->back()->with('success', 'Post Updated');
     }

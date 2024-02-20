@@ -26,13 +26,13 @@
                 <article class="col" id="post-{{$post->id}}">
                     <div class="card h-100">
                         @isset($post->feature_image)
-                        <a href="{{ route('post', ['slug' => $post->slug]) }}">
-                            <img class="bg-secondary w-100 card-img-top" width="360" height="270" src="{{ Storage::url($post->feature_image) }}" alt="{{$post->title}}">
+                        <a href="{{ route('post', ['slug' => $post->slug]) }}" title="{{$post->title}}">
+                            <img class="bg-secondary w-100 card-img-top lazy" width="360" height="270" data-src="{{ Storage::url($post->feature_image) }}" alt="{{$post->title}}" title="{{$post->title}}">
                         </a>
                         @endisset
                         <div class="card-body">
                             <a href="{{ route('post', ['slug' => $post->slug]) }}">
-                                <h2 class="h4 card-title text-dark">{{ $post->title }}</h2>
+                                <h2 class="h5 card-title text-dark">{{ $post->title }}</h2>
                             </a>
                         </div>
                     </div>

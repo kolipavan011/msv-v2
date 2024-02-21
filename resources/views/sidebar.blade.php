@@ -1,7 +1,7 @@
 <aside>
     <div class="bg-white">
         <div class="container">
-            <div class="row d-flex row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4 gy-4">
+            <div class="row d-flex row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4 gy-4 mb-4">
                 <!-- Category widget -->
                 <div class="col">
                     <h2 class="mb-3 h4 text-muted">CATEGORIES</h2>

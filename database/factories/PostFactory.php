@@ -20,8 +20,9 @@ class PostFactory extends Factory
             'title' => fake()->sentence(),
             'slug' => fake()->slug(),
             'feature_image' => fake()->imageUrl(),
-            'description' => fake()->paragraph(),
+            'description' => fake()->text(220),
             'body' => fake()->text(300),
+            'published_at' => today(),
             'user_id' => 1
         ];
     }

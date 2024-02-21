@@ -20,7 +20,7 @@ class PageFactory extends Factory
             'label' => fake()->sentence(3),
             'title' => fake()->sentence(),
             'slug' => fake()->slug(),
-            'body' => fake()->text(300),
+            'body' => fake()->text(600),
             'user_id' => 1
         ];
     }

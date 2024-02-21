@@ -20,8 +20,8 @@ class CategoryFactory extends Factory
             'label' => fake()->sentence(3),
             'title' => fake()->sentence(),
             'slug' => fake()->slug(),
-            'description' => fake()->paragraph(),
-            'body' => fake()->text(300),
+            'description' => fake()->text(220),
+            'body' => fake()->text(500),
             'user_id' => 1
         ];
     }

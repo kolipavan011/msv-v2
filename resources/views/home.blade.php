@@ -18,7 +18,7 @@
                     <div class="card h-100">
                         @isset($post->feature_image)
                         <a href="{{ route('post', ['slug' => $post->slug]) }}" title="{{$post->title}}">
-                            <img class="bg-secondary w-100 card-img-top lazy" width="360" height="270" data-src="{{ url($post->feature_image) }}" alt="{{$post->title}}" title="{{$post->title}}">
+                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" class=" bg-secondary w-100 card-img-top lazy" width="360" height="270" data-src="{{ url($post->feature_image) }}" alt="{{$post->title}}" title="{{$post->title}}">
                         </a>
                         @endisset
                         <div class="card-body">

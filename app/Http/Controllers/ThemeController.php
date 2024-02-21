@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Page;
 use App\Models\Post;
 use App\Models\Tag;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
 
@@ -20,13 +21,11 @@ class ThemeController extends Controller
             ->latest('published_at')
             ->paginate(Self::PER_PAGE);
 
-        $pages = Page::all();
-        $categories = Category::all();
-        $tags = Tag::all();
+        $sidebar = $this->sidebar();
 
         $SEOData = new SEOData(title: 'Mirchi Status Video Download', description: 'Best video status video download for whatsapp, facebook and instagram');
 
-        return view('home', compact(['posts', 'pages', 'tags', 'categories', 'SEOData']));
+        return view('home', compact(['posts', 'sidebar', 'SEOData']));
     }
 
     function post(string $slug): View
@@ -40,16 +39,14 @@ class ThemeController extends Controller
 
         // dd($videos);
 
-        $pages = Page::all();
-        $categories = Category::all();
-        $tags = Tag::all();
+        $sidebar = $this->sidebar();
 
         $SEOData = new SEOData(
             title: $post->seo->title,
             description: $post->seo->description,
         );
 
-        return view('post', compact(['post', 'videos', 'pages', 'tags', 'categories', 'SEOData']));
+        return view('post', compact(['post', 'videos', 'sidebar', 'SEOData']));
     }
 
     function category(string $slug): View
@@ -61,16 +58,14 @@ class ThemeController extends Controller
 
         $posts = $archive->posts()->paginate(Self::PER_PAGE);
 
-        $pages = Page::all();
-        $categories = Category::all();
-        $tags = Tag::all();
+        $sidebar = $this->sidebar();
 
         $SEOData = new SEOData(
             title: $archive->seo->title,
             description: $archive->seo->description
         );
 
-        return view('archive', compact(['archive', 'posts', 'pages', 'tags', 'categories', 'SEOData']));
+        return view('archive', compact(['archive', 'posts', 'sidebar', 'SEOData']));
     }
 
     function tag(string $slug): View
@@ -82,16 +77,14 @@ class ThemeController extends Controller
 
         $posts = $archive->posts()->paginate(Self::PER_PAGE);
 
-        $pages = Page::all();
-        $categories = Category::all();
-        $tags = Tag::all();
+        $sidebar = $this->sidebar();
 
         $SEOData = new SEOData(
             title: $archive->seo->title,
             description: $archive->seo->description
         );
 
-        return view('archive', compact(['archive', 'posts', 'pages', 'tags', 'categories', 'SEOData']));
+        return view('archive', compact(['archive', 'posts', 'sidebar', 'SEOData']));
     }
 
     function page(string $slug): View
@@ -101,15 +94,28 @@ class ThemeController extends Controller
             ->with('seo')
             ->first();
 
-        $pages = Page::all();
-        $categories = Category::all();
-        $tags = Tag::all();
+        $sidebar = $this->sidebar();
 
         $SEOData = new SEOData(
             title: $article->seo->title,
             description: $article->seo->description
         );
 
-        return view('page', compact(['article', 'pages', 'tags', 'categories', 'SEOData']));
+        return view('page', compact(['article', 'sidebar', 'SEOData']));
+    }
+
+    function sidebar(): array
+    {
+        return Cache::rememberForever('sidebar', function () {
+            $categories = Category::oldest()
+                ->get(['label', 'slug']);
+
+            return [
+                'pages' => Page::get(['label', 'slug']),
+                'categories' => $categories,
+                'tags' => Tag::get(['label', 'slug']),
+                'navigation' => $categories->take(3)
+            ];
+        });
     }
 }

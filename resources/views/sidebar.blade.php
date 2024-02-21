@@ -6,7 +6,7 @@
                 <div class="col">
                     <h2 class="mb-3 h4 text-muted">CATEGORIES</h2>
                     <div class="d-flex flex-wrap gap-2">
-                        @foreach ($categories as $category)
+                        @foreach ($sidebar['categories'] as $category)
                         <a href="{{ route('category', ['slug' => $category->slug]) }}" class="btn btn-outline-danger btn-sm" title="{{$category->title}}">{{$category->label}}</a>
                         @endforeach
                     </div>
@@ -15,7 +15,7 @@
                 <div class="col">
                     <h2 class="mb-3 h4 text-muted">TAGS</h2>
                     <div class="d-flex flex-wrap gap-2">
-                        @foreach ($tags as $tag)
+                        @foreach ($sidebar['tags'] as $tag)
                         <a href="{{ route('tag', ['slug' => $tag->slug]) }}" class="btn btn-outline-danger btn-sm" title="{{$tag->title}}">{{$tag->label}}</a>
                         @endforeach
                     </div>
@@ -24,7 +24,7 @@
                 <div class="col">
                     <h2 class="mb-3 h4 text-muted">PAGES</h2>
                     <div class="d-flex flex-wrap gap-2">
-                        @foreach ($pages as $page)
+                        @foreach ($sidebar['pages'] as $page)
                         <a href="{{ route('page', ['slug' => $page->slug]) }}" class="btn btn-outline-danger btn-sm" title="{{$page->title}}">{{$page->label}}</a>
                         @endforeach
                     </div>

@@ -14,8 +14,8 @@ const attachEvent = function () {
 }
 
 const handlePlay = (event) => {
-    event.preventDefault();
-    let video = document.getElementById(event.target.dataset.video);
+  event.preventDefault();
+    let video = document.getElementById(event.currentTarget.dataset.video);
     if (video.classList.contains('playing')) {
         video.classList.remove('playing');
         video.pause();

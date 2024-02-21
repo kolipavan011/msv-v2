@@ -18,13 +18,14 @@
     top: 0;
     right: 0;
     border-radius: 50%;
-    z-index: 1;
+    z-index: 99;
 }
 
 .play-icon {
     position: absolute;
     top: calc(50% - 25px);
     left: calc(50% - 25px);
+    z-index: 1;
 }
 
 video.playing + a span {

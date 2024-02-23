@@ -74,7 +74,7 @@ class PostController extends Controller
         $file = reset($payload);
         $path = $file->storeAs('public/images/' . $now->year, str_replace(" ", "-", $file->getClientOriginalName()));
 
-        Post::query()->withTrashed()->find($id)->update(['feature_image' => $path]);
+        Post::query()->withTrashed()->find($id)->update(['feature_image' => Storage::url($path)]);
 
         return to_route('posts');
     }

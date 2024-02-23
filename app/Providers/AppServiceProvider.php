@@ -2,8 +2,15 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use Exception;
+use Google\Client;
+use Google\Service\Drive;
+use League\Flysystem\Filesystem;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\ServiceProvider;
+use Masbug\Flysystem\GoogleDriveAdapter;
+use Illuminate\Filesystem\FilesystemAdapter;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,5 +28,32 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapFive();
+        $this->loadGoogleStorageDriver();
+    }
+
+    private function loadGoogleStorageDriver(string $driverName = 'google')
+    {
+        try {
+            Storage::extend($driverName, function ($app, $config) {
+                $options = [];
+
+                if (!empty($config['teamDriveId'] ?? null)) {
+                    $options['teamDriveId'] = $config['teamDriveId'];
+                }
+
+                $client = new Client();
+                $client->setClientId($config['clientId']);
+                $client->setClientSecret($config['clientSecret']);
+                $client->refreshToken($config['refreshToken']);
+
+                $service = new Drive($client);
+                $adapter = new GoogleDriveAdapter($service, $config['folder'] ?? '/', $options);
+                $driver = new Filesystem($adapter);
+
+                return new FilesystemAdapter($driver, $adapter);
+            });
+        } catch (Exception $e) {
+            // your exception handling logic
+        }
     }
 }

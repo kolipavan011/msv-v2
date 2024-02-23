@@ -66,4 +66,20 @@ class Post extends Model
     {
         return $this->belongsToMany(Video::class, 'posts_videos', 'post_id', 'video_id');
     }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function (self $post) {
+            $post->tags()->detach();
+            $post->categories()->detach();
+            $post->topic()->detach();
+        });
+    }
 }

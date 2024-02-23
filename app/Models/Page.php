@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 
 class Page extends Model
@@ -40,4 +41,22 @@ class Page extends Model
     protected $casts = [
         'created_at' => 'datetime:d-m-Y',
     ];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updating(function (self $post) {
+            Cache::flush('sidebar');
+        });
+
+        static::creating(function (self $post) {
+            Cache::flush('sidebar');
+        });
+    }
 }

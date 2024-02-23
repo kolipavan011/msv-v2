@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Cache;
 use Litespeed\LSCache\LSCache;
 
 class TagController extends Controller
@@ -45,6 +46,8 @@ class TagController extends Controller
             'slug' => Str::slug(request('title', 'new tag')),
             'user_id' => auth()->user()->id
         ]);
+
+        Cache::flush('sidebar');
         return redirect()->back();
     }
 
@@ -92,6 +95,7 @@ class TagController extends Controller
         $tag->update($data);
         $tag->seo->update($seo);
 
+        Cache::flush('sidebar');
         LSCache::purge('/', route('tag', ['slug', $tag->slug]));
 
         return redirect()->back()->with('success', 'Tag Updated');
@@ -111,7 +115,7 @@ class TagController extends Controller
             $tag->forceDelete();
         }
 
-
+        Cache::flush('sidebar');
         return redirect()->back();
     }
 
@@ -127,6 +131,7 @@ class TagController extends Controller
             $tag->restore();
         }
 
+        Cache::flush('sidebar');
 
         return redirect()->back();
     }

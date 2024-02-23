@@ -6,6 +6,7 @@ use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Response;
 use Illuminate\Support\Str;
 use Litespeed\LSCache\LSCache;
@@ -47,6 +48,9 @@ class CategoryController extends Controller
             'slug' => Str::slug(request('title', 'new category')),
             'user_id' => auth()->user()->id
         ]);
+
+        Cache::flush('sidebar');
+
         return redirect()->back();
     }
 
@@ -95,6 +99,7 @@ class CategoryController extends Controller
         $category->update($data);
         $category->seo->update($seo);
 
+        Cache::flush('sidebar');
         LSCache::purge('/', route('tag', ['slug', $category->slug]));
 
         return redirect()->back()->with('success', 'Category Updated');
@@ -114,6 +119,8 @@ class CategoryController extends Controller
             $category->forceDelete();
         }
 
+        Cache::flush('sidebar');
+
         return redirect()->back();
     }
 
@@ -129,6 +136,7 @@ class CategoryController extends Controller
             $category->restore();
         }
 
+        Cache::flush('sidebar');
         return redirect()->back();
     }
 }

@@ -23,7 +23,7 @@ class ThemeController extends Controller
 
         $sidebar = $this->sidebar();
 
-        $SEOData = new SEOData(title: 'Mirchi Status Video Download', description: 'Best video status video download for whatsapp, facebook and instagram');
+        $SEOData = new SEOData(title: 'Mirchi Status Video Download, Best Whatsapp Status Videos', description: 'Best Whatsapp Status Video download, Full Screen Status Video, Download Status Videos from god status video, sad status video and more here');
 
         return view('home', compact(['posts', 'sidebar', 'SEOData']));
     }

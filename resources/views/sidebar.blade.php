@@ -32,7 +32,7 @@
                 <!-- pages widget -->
                 <div class="col">
                     <h2 class="mb-3 h4 text-muted">ABOUT US</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic aspernatur unde maiores corporis saepe natus laborum? Deleniti dolores accusamus nesciunt eos consequatur, esse corrupti saepe delectus dicta quibusdam itaque vero.</p>
+                    <p><a href="{{config('app.url')}}" class="text-uppercase fw-bold text-danger">{{ config('app.name') }}</a> is the best website to download whatsapp status video and share feeling to friends and family. It has best categories of video status. You just need explore video status you need.</p>
                 </div>
             </div>
         </div>

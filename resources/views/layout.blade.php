@@ -11,6 +11,19 @@
     <!-- Style -->
     @vite('resources/scss/app.scss')
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B1E0GHZ4GX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-B1E0GHZ4GX');
+    </script>
+
 </head>
 
 <body class="bg-secondary">

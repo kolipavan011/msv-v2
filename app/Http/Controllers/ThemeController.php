@@ -12,7 +12,7 @@ use RalphJSmit\Laravel\SEO\Support\SEOData;
 
 class ThemeController extends Controller
 {
-    public const PER_PAGE = 20;
+    public const PER_PAGE = 30;
 
     function index(): View
     {

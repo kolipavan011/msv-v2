@@ -12,6 +12,7 @@
     @vite('resources/scss/app.scss')
 
     <!-- Google tag (gtag.js) -->
+    @if (config('app.env') === 'production')
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-B1E0GHZ4GX"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -23,6 +24,7 @@
 
         gtag('config', 'G-B1E0GHZ4GX');
     </script>
+    @endif
 
 </head>
 

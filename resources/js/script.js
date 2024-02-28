@@ -9,8 +9,15 @@ window.addEventListener('DOMContentLoaded', () => {
 const attachEvent = function () {
     let videos = document.getElementsByClassName('play-btn');
     for (let i = 0; i < videos.length; i++) {
-        videos[i].onclick = handlePlay;
+      videos[i].onclick = handlePlay;
+      document.getElementById(videos[i].dataset.video).onended = endVideo;
     }
+}
+
+const endVideo = (event) => {
+  let video = event.target;
+  video.classList.remove('playing');
+  video.pause();
 }
 
 const handlePlay = (event) => {

@@ -1,7 +1,7 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
         <div class="container justify-content-md-bewteen justify-content-center">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="{{ config('app.url') }}">
                 <img height="30px" src="/img/logo.jpg" alt="mirchi status logo">
             </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">

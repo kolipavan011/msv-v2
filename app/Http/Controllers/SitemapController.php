@@ -56,7 +56,7 @@ class SitemapController extends Controller
             ];
         });
 
-        return response()->view('sitemap_single', compact('urls'))
+        return response()->view('sitemap_single', compact('urls', 'route'))
             ->header('Content-Type', 'text/xml');
     }
 }

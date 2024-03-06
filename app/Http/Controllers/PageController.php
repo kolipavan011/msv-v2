@@ -9,7 +9,6 @@ use Inertia\Response;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
-use Litespeed\LSCache\LSCache;
 
 class PageController extends Controller
 {
@@ -97,7 +96,6 @@ class PageController extends Controller
         $page->seo->update($seo);
 
         Cache::flush('sidebar');
-        LSCache::purge('/', route('page', ['slug', $page->slug]));
 
         return redirect()->back()->with('success', 'Tag Updated');
     }

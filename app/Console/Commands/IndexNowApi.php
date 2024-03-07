@@ -32,11 +32,13 @@ class IndexNowApi extends Command
             ->where('published_at', '>', now()->subMinute(30))
             ->get()
             ->map(function ($item): string {
-                return route('post', ['slug', $item->slug]);
-            });
+                return route('post', ['slug' => $item->slug]);
+            })->toArray();
 
         if (count($posts) > 0 && config('app.env') == 'production') {
+            $this->info('Posts Being Indexed : ' . count($posts));
             IndexNow::submit($posts);
+            $this->info('Submited to index now api.');
         }
     }
 }

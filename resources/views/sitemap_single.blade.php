@@ -5,7 +5,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
     @if ($route == 'post')
     <url>
         <loc>{{ config('app.url') }}</loc>
-        <lastmod>{{ today()->tz('UTC')->toAtomString() }}</lastmod>
+        <lastmod>{{ today()->toAtomString() }}</lastmod>
     </url>
     @endif
     @foreach ($urls as $url)

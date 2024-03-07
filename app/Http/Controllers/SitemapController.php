@@ -52,7 +52,7 @@ class SitemapController extends Controller
         $urls = $list->get(['slug', 'updated_at'])->map(function ($item) use ($route) {
             return [
                 'url' => route($route, $item->slug),
-                'time' => $item->updated_at->tz('UTC')->toAtomString()
+                'time' => $item->updated_at->toAtomString()
             ];
         });
 

@@ -5,7 +5,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
     @foreach ($sitemaps as $sitemap)
     <sitemap>
         <loc>{{ $sitemap }}</loc>
-        <lastmod>{{today()->tz('UTC')->toAtomString()}}</lastmod>
+        <lastmod>{{today()->toAtomString()}}</lastmod>
     </sitemap>
     @endforeach
 </sitemapindex>

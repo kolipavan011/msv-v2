@@ -137,7 +137,7 @@
                                 >Published Date</label
                             >
                             <input
-                                type="date"
+                                type="datetime-local"
                                 class="form-control"
                                 id="input-date"
                                 aria-describedby="input-date"

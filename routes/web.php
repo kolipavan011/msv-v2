@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ThemeController::class, "index"])->middleware('ttl:7200');
+Route::get('/', [ThemeController::class, "index"])->middleware('lscache:max-age=7200');
 
 // Auth
 Route::get('dashmin/login', [AuthenticatedSessionController::class, 'create'])
@@ -98,22 +98,22 @@ Route::prefix('/dashmin')->middleware('auth')->group(function () {
 
 // sitemap routes
 Route::get('/sitemap.xml', [SitemapController::class, "index"])
-    ->middleware('ttl:7200')
+    ->middleware('lscache:max-age=7200')
     ->name('sitemap');
 Route::get('/sitemap/{slug}', [SitemapController::class, "single"])
-    ->middleware('ttl:7200')
+    ->middleware('lscache:max-age=7200')
     ->name('sitemap.single');
 
 // themes routes
 Route::get('/{slug}', [ThemeController::class, "post"])
-    ->middleware('ttl:7200')
+    ->middleware('lscache:max-age=7200')
     ->name('post');
 Route::get('/category/{slug}', [ThemeController::class, "category"])
-    ->middleware('ttl:7200')
+    ->middleware('lscache:max-age=7200')
     ->name('category');
 Route::get('/tag/{slug}', [ThemeController::class, "tag"])
-    ->middleware('ttl:7200')
+    ->middleware('lscache:max-age=7200')
     ->name('tag');
 Route::get('/page/{slug}', [ThemeController::class, "page"])
-    ->middleware('ttl:7200')
+    ->middleware('lscache:max-age=7200')
     ->name('page');

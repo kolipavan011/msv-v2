@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1b81a9d901305918aace9839d3432d29",
+    "content-hash": "5dccea1977e737ab9510217c16ef6703",
     "packages": [
         {
             "name": "athlon1600/php-curl-client",
@@ -126,133 +126,6 @@
                 "source": "https://github.com/Athlon1600/youtube-downloader/tree/v4.0.0"
             },
             "time": "2023-11-12T21:57:04+00:00"
-        },
-        {
-            "name": "barryvdh/laravel-httpcache",
-            "version": "v1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/barryvdh/laravel-httpcache.git",
-                "reference": "d98ba82a8d782ab3fc8937885d9db3ef5875b294"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-httpcache/zipball/d98ba82a8d782ab3fc8937885d9db3ef5875b294",
-                "reference": "d98ba82a8d782ab3fc8937885d9db3ef5875b294",
-                "shasum": ""
-            },
-            "require": {
-                "barryvdh/laravel-stack-middleware": "^1.0",
-                "illuminate/support": "^9|^10",
-                "php": "^8",
-                "symfony/console": "^6",
-                "symfony/http-kernel": "^6"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^7|^8"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.3-dev"
-                },
-                "laravel": {
-                    "providers": [
-                        "Barryvdh\\HttpCache\\ServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Barryvdh\\HttpCache\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Barry vd. Heuvel",
-                    "email": "barryvdh@gmail.com"
-                }
-            ],
-            "description": "HttpCache for Laravel",
-            "keywords": [
-                "cache",
-                "esi",
-                "httpcache",
-                "laravel"
-            ],
-            "support": {
-                "issues": "https://github.com/barryvdh/laravel-httpcache/issues",
-                "source": "https://github.com/barryvdh/laravel-httpcache/tree/v1.0.0"
-            },
-            "time": "2023-02-05T14:58:21+00:00"
-        },
-        {
-            "name": "barryvdh/laravel-stack-middleware",
-            "version": "v1.3.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/barryvdh/laravel-stack-middleware.git",
-                "reference": "1d667208bc835ff29b17afad86ead34454ae59af"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-stack-middleware/zipball/1d667208bc835ff29b17afad86ead34454ae59af",
-                "reference": "1d667208bc835ff29b17afad86ead34454ae59af",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "^9|^10",
-                "php": "^8",
-                "symfony/http-kernel": "^6"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^7|^8"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.2-dev"
-                },
-                "laravel": {
-                    "providers": [
-                        "Barryvdh\\StackMiddleware\\ServiceProvider"
-                    ],
-                    "aliases": {
-                        "Stack": "Barryvdh\\StackMiddleware\\Facade"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Barryvdh\\StackMiddleware\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Barry vd. Heuvel",
-                    "email": "barryvdh@gmail.com"
-                }
-            ],
-            "description": "Stack Middleware for Laravel 5",
-            "keywords": [
-                "StackPHP",
-                "laravel",
-                "middleware",
-                "stack"
-            ],
-            "support": {
-                "issues": "https://github.com/barryvdh/laravel-stack-middleware/issues",
-                "source": "https://github.com/barryvdh/laravel-stack-middleware/tree/v1.3.1"
-            },
-            "time": "2023-02-05T14:53:19+00:00"
         },
         {
             "name": "brick/math",
@@ -2671,6 +2544,56 @@
                 }
             ],
             "time": "2023-10-17T14:13:20+00:00"
+        },
+        {
+            "name": "litespeed/lscache-laravel",
+            "version": "v1.3.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/litespeedtech/lscache-laravel.git",
+                "reference": "576a445a7f6bc3b18140a09c7cb77f2d68568661"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/litespeedtech/lscache-laravel/zipball/576a445a7f6bc3b18140a09c7cb77f2d68568661",
+                "reference": "576a445a7f6bc3b18140a09c7cb77f2d68568661",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.1|^6|^7|^8|^9|^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Litespeed\\LSCache\\LSCacheServiceProvider"
+                    ],
+                    "aliases": {
+                        "LSCache": "Litespeed\\LSCache\\LSCache"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Litespeed\\LSCache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Lucas Rolff",
+                    "email": "lrolff@litespeedtech.com"
+                }
+            ],
+            "description": "LSCache Implementation for Laravel",
+            "support": {
+                "issues": "https://github.com/litespeedtech/lscache-laravel/issues",
+                "source": "https://github.com/litespeedtech/lscache-laravel/tree/v1.3.5"
+            },
+            "time": "2023-02-05T00:45:36+00:00"
         },
         {
             "name": "masbug/flysystem-google-drive-ext",

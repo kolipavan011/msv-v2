@@ -1,12 +1,11 @@
+<IfModule LiteSpeed>
+   CacheLookup on
+</IfModule>
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
-
-    <IfModule LiteSpeed>
-        CacheLookup on
-    </IfModule>
-
+    
     RewriteEngine On
 
     # Handle Authorization Header

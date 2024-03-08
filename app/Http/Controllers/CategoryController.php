@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Response;
 use Illuminate\Support\Str;
+use Litespeed\LSCache\LSCache;
 
 class CategoryController extends Controller
 {
@@ -99,6 +100,7 @@ class CategoryController extends Controller
         $category->seo->update($seo);
 
         Cache::flush('sidebar');
+        LSCache::purge(['/', route('category', ['slug' => $category->slug])]);
 
         return redirect()->back()->with('success', 'Category Updated');
     }
@@ -118,6 +120,7 @@ class CategoryController extends Controller
         }
 
         Cache::flush('sidebar');
+        LSCache::purge(['/', route('category', ['slug' => $category->slug])]);
 
         return redirect()->back();
     }

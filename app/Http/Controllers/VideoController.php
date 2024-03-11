@@ -59,9 +59,11 @@ class VideoController extends Controller
                 $img = $youtube->getThumbnails($id)['high'];
 
                 $massage = $this->download($img, $video) ? "success" : "fail";
+            } else {
+                return response()->json(['massage' => 'fail'], 404);
             }
         } catch (YouTubeException $e) {
-            $massage = $e->getMessage();
+            return response()->json(['massage' => $e->getMessage()], 404);
         }
 
         return response()->json(['massage' => $massage]);

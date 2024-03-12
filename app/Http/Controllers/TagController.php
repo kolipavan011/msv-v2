@@ -96,7 +96,7 @@ class TagController extends Controller
         $tag->seo->update($seo);
 
         Cache::flush('sidebar');
-        LSCache::purge(['/', route('tag', ['slug' => $tag->slug])]);
+        LSCache::purgeItems(['/', route('tag', ['slug' => $tag->slug])]);
 
         return redirect()->back()->with('success', 'Tag Updated');
     }
@@ -116,7 +116,7 @@ class TagController extends Controller
         }
 
         Cache::flush('sidebar');
-        LSCache::purge(['/', route('tag', ['slug' => $tag->slug])]);
+        LSCache::purgeItems(['/', route('tag', ['slug' => $tag->slug])]);
 
         return redirect()->back();
     }

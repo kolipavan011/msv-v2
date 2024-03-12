@@ -100,7 +100,7 @@ class CategoryController extends Controller
         $category->seo->update($seo);
 
         Cache::flush('sidebar');
-        LSCache::purge(['/', route('category', ['slug' => $category->slug])]);
+        LSCache::purgeItems(['/', route('category', ['slug' => $category->slug])]);
 
         return redirect()->back()->with('success', 'Category Updated');
     }
@@ -120,7 +120,7 @@ class CategoryController extends Controller
         }
 
         Cache::flush('sidebar');
-        LSCache::purge(['/', route('category', ['slug' => $category->slug])]);
+        LSCache::purgeItems(['/', route('category', ['slug' => $category->slug])]);
 
         return redirect()->back();
     }

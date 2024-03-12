@@ -147,7 +147,7 @@ class PostController extends Controller
         $post->categories()->sync($categories);
         $post->tags()->sync($tags);
 
-        LSCache::purge(['/', route('post', ['slug' => $post->slug])]);
+        LSCache::purgeItems(['/', route('post', ['slug' => $post->slug])]);
         return redirect()->back()->with('success', 'Post Updated');
     }
 

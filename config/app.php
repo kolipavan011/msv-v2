@@ -59,6 +59,8 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
+    'google_code' => env('GOOGLE_CODE', ""),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

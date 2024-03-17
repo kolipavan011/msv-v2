@@ -13,7 +13,7 @@
 
     <!-- Google tag (gtag.js) -->
     @if (config('app.env') === 'production')
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B1E0GHZ4GX"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{config('app.google_code')}}"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -22,7 +22,7 @@
         }
         gtag('js', new Date());
 
-        gtag('config', 'G-B1E0GHZ4GX');
+        gtag('config', '{{config("app.google_code")}}');
     </script>
     @endif
 

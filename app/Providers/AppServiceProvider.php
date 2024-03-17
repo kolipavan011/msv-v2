@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Masbug\Flysystem\GoogleDriveAdapter;
 use Illuminate\Filesystem\FilesystemAdapter;
+use Opcodes\LogViewer\Facades\LogViewer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,6 +32,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapFive();
         $this->loadGoogleStorageDriver();
+
+        LogViewer::auth(function ($request): bool {
+            return $request->user() !== null;
+        });
     }
 
     private function loadGoogleStorageDriver(string $driverName = 'google')

@@ -27,18 +27,22 @@ class IndexNowApi extends Command
      */
     public function handle()
     {
-        $posts = Post::query()
-            ->select('slug')
-            ->where('published_at', '>', now()->subMinute(30))
-            ->get()
-            ->map(function ($item): string {
-                return route('post', ['slug' => $item->slug]);
-            })->toArray();
+        if (config('app.env') == 'production') {
+            $posts = Post::query()
+                ->select('slug')
+                ->where('published_at', '>', now()->subMinute(30))
+                ->get()
+                ->map(function ($item): string {
+                    return route('post', ['slug' => $item->slug]);
+                })->toArray();
 
-        if (count($posts) > 0 && config('app.env') == 'production') {
-            $this->info('Posts Being Indexed : ' . count($posts));
-            IndexNow::submit($posts);
-            $this->info('Submited to index now api.');
+            if (count($posts) > 0) {
+                $this->info('Posts Being Indexed : ' . count($posts));
+                IndexNow::submit($posts);
+                $this->info('Submited to index now api.');
+            }
+        } else {
+            $this->info('This command is working');
         }
     }
 }

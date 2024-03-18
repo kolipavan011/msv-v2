@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
+use RalphJSmit\Laravel\SEO\SchemaCollection;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
 
 class ThemeController extends Controller
@@ -32,7 +33,7 @@ class ThemeController extends Controller
     {
         $post = Post::query()
             ->where('slug', $slug)
-            ->with('seo')
+            ->with('seo', 'categories')
             ->first();
 
         if (!$post) {
@@ -41,13 +42,17 @@ class ThemeController extends Controller
 
         $videos = $post->videos()->paginate(Self::PER_PAGE);
 
-        // dd($videos);
-
         $sidebar = $this->sidebar();
 
         $SEOData = new SEOData(
             title: $post->seo->title,
             description: $post->seo->description,
+            image: $post->feature_image,
+            type: 'article',
+            section: count($post->categories) > 0 ? $post->categories[0] : null,
+            published_time: $post->published_at,
+            modified_time: $post->updated_at,
+            schema: SchemaCollection::initialize()->addArticle()
         );
 
         return view('post', compact(['post', 'videos', 'sidebar', 'SEOData']));

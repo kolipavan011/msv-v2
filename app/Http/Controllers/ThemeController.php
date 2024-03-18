@@ -35,6 +35,10 @@ class ThemeController extends Controller
             ->with('seo')
             ->first();
 
+        if (!$post) {
+            abort(404);
+        }
+
         $videos = $post->videos()->paginate(Self::PER_PAGE);
 
         // dd($videos);
@@ -56,6 +60,10 @@ class ThemeController extends Controller
             ->with('seo')
             ->first();
 
+        if (!$archive) {
+            abort(404);
+        }
+
         $posts = $archive->posts()->paginate(Self::PER_PAGE);
 
         $sidebar = $this->sidebar();
@@ -75,6 +83,10 @@ class ThemeController extends Controller
             ->with('seo')
             ->first();
 
+        if (!$archive) {
+            abort(404);
+        }
+
         $posts = $archive->posts()->paginate(Self::PER_PAGE);
 
         $sidebar = $this->sidebar();
@@ -93,6 +105,10 @@ class ThemeController extends Controller
             ->where('slug', $slug)
             ->with('seo')
             ->first();
+
+        if (!$article) {
+            abort(404);
+        }
 
         $sidebar = $this->sidebar();
 

@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Page;
 use App\Models\Post;
 use App\Models\Tag;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 use RalphJSmit\Laravel\SEO\SchemaCollection;
@@ -33,16 +34,23 @@ class ThemeController extends Controller
     {
         $post = Post::query()
             ->where('slug', $slug)
-            ->with('seo', 'categories')
+            ->with('seo', 'categories:id,title,slug', 'videos')
             ->first();
 
         if (!$post) {
             abort(404);
         }
 
-        $videos = $post->videos()->paginate(Self::PER_PAGE);
-
         $sidebar = $this->sidebar();
+
+        $related =
+            Post::whereHas('categories', function (Builder $query) use ($post) {
+                $query->select('categories.id')
+                    ->whereIn('id', $post->categories->pluck('id'));
+            })
+            ->inRandomOrder()
+            ->take(6)
+            ->get();
 
         $SEOData = new SEOData(
             title: $post->seo->title,
@@ -55,7 +63,7 @@ class ThemeController extends Controller
             schema: SchemaCollection::initialize()->addArticle()
         );
 
-        return view('post', compact(['post', 'videos', 'sidebar', 'SEOData']));
+        return view('post', compact(['post', 'sidebar', 'related', 'SEOData']));
     }
 
     function category(string $slug): View

@@ -23,7 +23,7 @@
         <div class="my-5">
             <div class="container">
                 <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
-                    @forelse ($videos as $video)
+                    @forelse ($post->videos as $video)
                     <div class="col" id="post-{{$video->id}}">
                         <div class="card h-100">
                             <div class="video-container">
@@ -38,7 +38,7 @@
                                 </a>
                             </div>
                             <div class="card-body">
-                                <h2 class="h6 card-title text-muted text-truncate">{{ $video->title }}</h2>
+                                <p class="h6 card-title text-muted text-truncate">{{ $video->title }}</p>
                             </div>
                             <a href="{{ url($video->path) }}" type="button" class="btn btn-danger rounded-0" download>
                                 Download ({{ $video->size }})
@@ -51,16 +51,37 @@
                     </div>
                     @endforelse
                 </div>
-                <div class="row mb-5">
-                    <div class="col-12">
-                        {{ $videos->onEachSide(1)->links() }}
-                    </div>
-                </div>
-                <div class="row mb-5">
+                <div class="row mb-3">
                     <div class="col-12">
                         {!! $post->body !!}
                     </div>
                 </div>
+                @if (count($related) > 0)
+                <div class="row mb-3">
+                    <div class="col">
+                        <h2>Related Video Status to {{$post->title}}</h2>
+                        <p>Lets find similar whatsapp status video article below. Here are some of best video status related to {{ $post->title }}</p>
+                    </div>
+                </div>
+                <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    @foreach ($related as $_post)
+                    <article class="col" id="post-{{$_post->id}}">
+                        <div class="card h-100">
+                            @isset($_post->feature_image)
+                            <a href="{{ route('post', ['slug' => $_post->slug]) }}" title="{{$_post->title}}">
+                                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" class=" bg-secondary w-100 card-img-top lazy" width="360" height="270" data-src="{{ url($_post->feature_image) }}" alt="{{$_post->title}}" title="{{$_post->title}}">
+                            </a>
+                            @endisset
+                            <div class="card-body">
+                                <a href="{{ route('post', ['slug' => $_post->slug]) }}" title="{{$_post->title}}">
+                                    <h3 class="h5 card-title text-dark">{{ $_post->title }}</h3>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                    @endforeach
+                </div>
+                @endif
             </div>
         </div>
     </article>

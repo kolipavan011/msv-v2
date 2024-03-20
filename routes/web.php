@@ -97,7 +97,7 @@ Route::prefix('/dashmin')->middleware('auth')->group(function () {
 });
 
 // sitemap routes
-Route::get('/sitemap.xml', [SitemapController::class, "index"])
+Route::get('/sitemap_index.xml', [SitemapController::class, "index"])
     ->middleware('lscache:max-age=7200')
     ->name('sitemap');
 Route::get('/sitemap/{slug}', [SitemapController::class, "single"])

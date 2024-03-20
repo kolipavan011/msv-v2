@@ -11,12 +11,19 @@ class SitemapController extends Controller
     // sitemap index
     function index(): Response
     {
-        $sitemaps = collect($this->sitemaps)->map(function ($item) {
-            return route('sitemap.single', $item);
-        });
+        // create sitemap
+        $sitemap = resolve("sitemap");
 
-        return response()->view('sitemap_index', compact('sitemaps'))
-            ->header('Content-Type', 'text/xml');
+        // set cache
+        $sitemap->setCache('laravel.sitemap-index', 3600);
+
+        // add sitemaps (loc, lastmod (optional))
+        foreach ($this->sitemaps as $_sitemap) {
+            $sitemap->addSitemap(route('sitemap.single', $_sitemap), today()->toAtomString());
+        }
+
+        // show sitemap
+        return $sitemap->render('sitemapindex');
     }
 
     //sitemap archive
@@ -49,14 +56,17 @@ class SitemapController extends Controller
                 break;
         }
 
-        $urls = $list->get(['slug', 'updated_at'])->map(function ($item) use ($route) {
-            return [
-                'url' => route($route, $item->slug),
-                'time' => $item->updated_at->toAtomString()
-            ];
+        // create sitemap
+        $sitemap = resolve("sitemap");
+
+        // set cache
+        $sitemap->setCache('laravel.' . $route, 3600);
+
+        $list->get(['slug', 'updated_at'])->each(function ($item) use ($sitemap, $route) {
+            $sitemap->add(route($route, $item->slug), $item->updated_at->toAtomString(), 0.8, 'monthly');
         });
 
-        return response()->view('sitemap_single', compact('urls', 'route'))
-            ->header('Content-Type', 'text/xml');
+        // show your sitemap (options: 'xml' (default), 'html', 'txt', 'ror-rss', 'ror-rdf')
+        return $sitemap->render('xml');
     }
 }

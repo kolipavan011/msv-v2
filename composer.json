@@ -18,7 +18,8 @@
         "opcodesio/log-viewer": "^3.6",
         "ralphjsmit/laravel-seo": "^1.4",
         "spatie/laravel-backup": "^8.6",
-        "tightenco/ziggy": "^1.0"
+        "tightenco/ziggy": "^1.0",
+        "ultrono/laravel-sitemap": "^9.3"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",

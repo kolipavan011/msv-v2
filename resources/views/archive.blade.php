@@ -1,5 +1,11 @@
 @extends('layout')
 
+@section('schema')
+<script type="application/ld+json">
+    @json($schema)
+</script>
+@endsection
+
 @section('content')
 <main class="main-content">
     <div class="py-4 bg-white">

@@ -18,6 +18,9 @@ class ThemeController extends Controller
 
     function index(): View
     {
+        $title = 'Mirchi Status Video Download, Best Whatsapp Status Videos';
+        $description = 'Best Whatsapp Status Video download, Full Screen Status Video, Download Status Videos from god status video, sad status video and more here';
+
         $posts = Post::query()
             ->whereNot('published_at', null)
             ->latest('published_at')
@@ -25,9 +28,11 @@ class ThemeController extends Controller
 
         $sidebar = $this->sidebar();
 
-        $SEOData = new SEOData(title: 'Mirchi Status Video Download, Best Whatsapp Status Videos', description: 'Best Whatsapp Status Video download, Full Screen Status Video, Download Status Videos from god status video, sad status video and more here');
+        $SEOData = new SEOData(title: $title, description: $description);
 
-        return view('home', compact(['posts', 'sidebar', 'SEOData']));
+        $schema = $this->CollectionSchema($title, $description);
+
+        return view('home', compact(['posts', 'sidebar', 'SEOData', 'schema']));
     }
 
     function post(string $slug): View
@@ -86,7 +91,9 @@ class ThemeController extends Controller
             description: $archive->seo->description
         );
 
-        return view('archive', compact(['archive', 'posts', 'sidebar', 'SEOData']));
+        $schema = $this->CollectionSchema($archive->seo->title, $archive->seo->description);
+
+        return view('archive', compact(['archive', 'posts', 'sidebar', 'SEOData', 'schema']));
     }
 
     function tag(string $slug): View
@@ -109,7 +116,9 @@ class ThemeController extends Controller
             description: $archive->seo->description
         );
 
-        return view('archive', compact(['archive', 'posts', 'sidebar', 'SEOData']));
+        $schema = $this->CollectionSchema($archive->seo->title, $archive->seo->description);
+
+        return view('archive', compact(['archive', 'posts', 'sidebar', 'SEOData', 'schema']));
     }
 
     function page(string $slug): View
@@ -146,5 +155,19 @@ class ThemeController extends Controller
                 'navigation' => $categories->take(3)
             ];
         });
+    }
+
+    private function CollectionSchema(string $title, string $description): array
+    {
+        return [
+            '@context' => 'https://schema.org',
+            "@type" => "CollectionPage",
+            "url" => url()->current(),
+            "name" => $title,
+            "isPartOf" => [
+                "@id" => config('app.url') . '/#website'
+            ],
+            "description" => $description,
+        ];
     }
 }

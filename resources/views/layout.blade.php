@@ -8,6 +8,8 @@
     <!-- SEO -->
     {!! seo($SEOData) !!}
 
+    @yield('schema')
+
     <!-- Style -->
     @vite('resources/scss/app.scss')
 

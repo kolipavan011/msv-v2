@@ -1,11 +1,5 @@
 @extends('layout')
 
-@section('schema')
-<script type="application/ld+json">
-    @json($schema)
-</script>
-@endsection
-
 @section('content')
 <main class="main-content">
     <div class="py-4 bg-white">
@@ -18,11 +12,9 @@
             </nav>
         </div>
         <div class="container">
-            <header>
-                <h1 class="mb-3 h2">{{ $archive->title }}</h1>
-                @include('components.share')
-                {!! $archive->description !!}
-            </header>
+            <h1 class="mb-3 h2">{{ $archive->title }}</h1>
+            @include('components.share')
+            {!! $archive->description !!}
         </div>
     </div>
     <div class="my-5">

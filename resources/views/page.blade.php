@@ -12,10 +12,8 @@
             </nav>
         </div>
         <div class="container">
-            <header>
-                <h1 class="mb-3 h2">{{ $article->title }}</h1>
-                {!! $article->description !!}
-            </header>
+            <h1 class="mb-3 h2">{{ $article->title }}</h1>
+            {!! $article->description !!}
         </div>
     </div>
     <div class="mb-5 pb-3 bg-white">

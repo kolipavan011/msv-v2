@@ -1,19 +1,11 @@
 @extends('layout')
 
-@section('schema')
-<script type="application/ld+json">
-    @json($schema)
-</script>
-@endsection
-
 @section('content')
 <main class="main-content">
     <div class="py-5 bg-white">
         <div class="container text-center">
-            <header>
-                <h1 class="mb-3">Mirchi Status Video Download, Best Whatsapp Status Videos</h1>
-                <p>Best Whatsapp Status Video download, Full Screen Status Video, Download Status Videos from god status video, sad status video and more here. Download latest video status and just share with friends and family. express feeling to world..!</p>
-            </header>
+            <h1 class="mb-3">Mirchi Status Video Download, Best Whatsapp Status Videos</h1>
+            <p>Best Whatsapp Status Video download, Full Screen Status Video, Download Status Videos from god status video, sad status video and more here. Download latest video status and just share with friends and family. express feeling to world..!</p>
         </div>
     </div>
     <div class="my-5">

@@ -9,7 +9,6 @@ use App\Models\Tag;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
-use RalphJSmit\Laravel\SEO\SchemaCollection;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
 
 class ThemeController extends Controller
@@ -30,9 +29,8 @@ class ThemeController extends Controller
 
         $SEOData = new SEOData(title: $title, description: $description);
 
-        $schema = $this->CollectionSchema($title, $description);
 
-        return view('home', compact(['posts', 'sidebar', 'SEOData', 'schema']));
+        return view('home', compact(['posts', 'sidebar', 'SEOData']));
     }
 
     function post(string $slug): View
@@ -65,7 +63,6 @@ class ThemeController extends Controller
             section: count($post->categories) > 0 ? $post->categories[0] : null,
             published_time: $post->published_at,
             modified_time: $post->updated_at,
-            schema: SchemaCollection::initialize()->addArticle()
         );
 
         return view('post', compact(['post', 'sidebar', 'related', 'SEOData']));
@@ -91,9 +88,7 @@ class ThemeController extends Controller
             description: $archive->seo->description
         );
 
-        $schema = $this->CollectionSchema($archive->seo->title, $archive->seo->description);
-
-        return view('archive', compact(['archive', 'posts', 'sidebar', 'SEOData', 'schema']));
+        return view('archive', compact(['archive', 'posts', 'sidebar', 'SEOData']));
     }
 
     function tag(string $slug): View
@@ -116,9 +111,7 @@ class ThemeController extends Controller
             description: $archive->seo->description
         );
 
-        $schema = $this->CollectionSchema($archive->seo->title, $archive->seo->description);
-
-        return view('archive', compact(['archive', 'posts', 'sidebar', 'SEOData', 'schema']));
+        return view('archive', compact(['archive', 'posts', 'sidebar', 'SEOData']));
     }
 
     function page(string $slug): View
@@ -155,19 +148,5 @@ class ThemeController extends Controller
                 'navigation' => $categories->take(3)
             ];
         });
-    }
-
-    private function CollectionSchema(string $title, string $description): array
-    {
-        return [
-            '@context' => 'https://schema.org',
-            "@type" => "CollectionPage",
-            "url" => url()->current(),
-            "name" => $title,
-            "isPartOf" => [
-                "@id" => config('app.url') . '/#website'
-            ],
-            "description" => $description,
-        ];
     }
 }

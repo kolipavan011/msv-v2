@@ -24,7 +24,9 @@
                 <div class="col" id="post-{{$video->id}}">
                     <div class="card h-100">
                         <div class="video-container">
-                            <video poster="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" style="background-color: #ccc;" id="video-{{$video->id}}" class="w-100 card-img-top lazy" width="360" height="260" src="{{ url($video->path) }}" data-poster="{{ url($video->thumbnail) }}" preload="none"></video>
+                            <video poster="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" style="background-color: #ccc;" id="video-{{$video->id}}" class="w-100 card-img-top lazy" width="360" height="260" data-poster="{{ url($video->thumbnail) }}" preload="none">
+                                <source src="{{ url($video->path) }}" type="video/mp4">
+                            </video>
                             <a href="#" class="play-btn" role="button" data-video="video-{{$video->id}}">
                                 <span class="play-icon bg-danger rounded-circle">
                                     <svg fill="#fff" class="material-design-icon__svg" width="50" height="50" viewBox="0 0 24 24">
@@ -35,7 +37,7 @@
                             </a>
                         </div>
                         <div class="card-body">
-                            <p class="h6 card-title text-muted text-truncate">{{ $video->title }}</p>
+                            <p class="h6 card-title text-muted">{{ $video->title }}</p>
                         </div>
                         <a href="{{ url($video->path) }}" type="button" class="btn btn-danger rounded-0" download>
                             Download ({{ $video->size }})
